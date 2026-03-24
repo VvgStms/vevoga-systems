@@ -182,13 +182,45 @@ export default function VevogaSystemsLandingPage() {
   const [status, setStatus] = useState<"idle" | "success">("idle");
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
 
-  const mailtoHref = useMemo(() => {
-    const subject = encodeURIComponent(`Vevoga Systems – ${formData.area}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name || "-"}\nUnternehmen: ${formData.company || "-"}\nE-Mail: ${formData.email || "-"}\nBereich: ${formData.area}\n\nNachricht:\n${formData.message || "-"}`
-    );
-    return `mailto:info@vevoga-systems.de?subject=${subject}&body=${body}`;
-  }, [formData]);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
+
+  try {
+    setStatus("idle");
+
+    const response = await fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: formData.name,
+        company: formData.company,
+        email: formData.email,
+        phone: "",
+        message: `Bereich: ${formData.area}\n\n${formData.message}`,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Versand fehlgeschlagen.");
+    }
+
+    setStatus("success");
+    setFormData({
+      name: "",
+      company: "",
+      email: "",
+      area: "Industrial Solution",
+      message: "",
+    });
+  } catch (error) {
+    console.error(error);
+    alert("Die Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.");
+  }
+};
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -197,11 +229,7 @@ export default function VevogaSystemsLandingPage() {
     if (status !== "idle") setStatus("idle");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    window.location.href = mailtoHref;
-    setStatus("success");
-  };
+  
 
   return (
     <div
