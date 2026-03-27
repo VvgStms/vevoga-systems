@@ -1,69 +1,150 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion } from "framer-motion";
 import { useMemo, useState } from "react";
 import {
   ArrowRight,
-  ChevronRight,
   Mail,
   Shield,
   Workflow,
   Store,
   Factory,
   Sparkles,
+  Smartphone,
+  BarChart3,
+  FileSpreadsheet,
+  Search,
+  MessageSquare,
+  Cpu,
+  Boxes,
 } from "lucide-react";
 
-const fadeUp: HTMLMotionProps<"div"> = {
+const fadeUp = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, ease: "easeOut" },
+  transition: { duration: 0.65, ease: "easeOut" as const },
   viewport: { once: true, amount: 0.2 },
 };
 
-const pillars = [
+const splitCards = [
   {
-    icon: Sparkles,
-    title: "Klare Systeme",
-    text: "Moderne Assistenzlösungen mit Fokus auf Verständlichkeit, Nutzen und Wirkung im Alltag.",
+    id: "retail",
+    icon: Store,
+    eyebrow: "Retail System",
+    title: "Produktsuche im Markt – schnell, verständlich und ohne App.",
+    text: "Kunden finden Produkte in Sekunden. Gleichzeitig sehen Sie, wonach gesucht wird, was gefunden wird und wo Potenziale im Sortiment liegen.",
+    cta: "Retail System entdecken",
   },
   {
-    icon: Shield,
-    title: "Professioneller Auftritt",
-    text: "Keine Spielerei, kein Hype, sondern ein hochwertiger Auftritt für reale betriebliche Herausforderungen.",
+    id: "knowledge",
+    icon: Factory,
+    eyebrow: "Knowledge System",
+    title: "Wissen verfügbar machen. Prozesse stabilisieren. Antworten sofort liefern.",
+    text: "Das System stellt relevantes Prozess- und Erfahrungswissen direkt bereit – strukturiert, verständlich und auf den Arbeitsalltag ausgerichtet.",
+    cta: "Knowledge System entdecken",
+  },
+];
+
+const retailFeatures = [
+  {
+    icon: Smartphone,
+    title: "Ohne App nutzbar",
+    text: "QR-Code scannen, Produkt eingeben, Standort sehen – ohne Installation oder Registrierung.",
+  },
+  {
+    icon: Search,
+    title: "Sofortige Orientierung",
+    text: "Produkte werden direkt mit Gang, Regal und Ebene angezeigt – klar und verständlich für den Kunden.",
+  },
+  {
+    icon: BarChart3,
+    title: "Suchverhalten sichtbar",
+    text: "Sie sehen, welche Produkte gesucht werden, wann Stoßzeiten entstehen und wo Nulltreffer auftreten.",
+  },
+  {
+    icon: FileSpreadsheet,
+    title: "CSV oder Excel Import",
+    text: "Produkte, Standorte und Kategorien lassen sich schnell importieren und zentral pflegen.",
+  },
+];
+
+const knowledgeFeatures = [
+  {
+    icon: MessageSquare,
+    title: "Direkte Antworten",
+    text: "Mitarbeitende erhalten schnell strukturierte Antworten auf Fehlerbilder, Maßnahmen und Prozessfragen.",
   },
   {
     icon: Workflow,
-    title: "Praxisnah entwickelt",
-    text: "Entstanden aus echten Problemstellungen aus Industrie und Handel – mit Blick auf schnelle Anwendbarkeit.",
+    title: "Strukturiertes Prozesswissen",
+    text: "Abläufe werden schrittweise dargestellt, statt nur lose Informationen oder einzelne Dokumente zu zeigen.",
   },
-];
-
-const industrialPoints = [
-  "Weniger Zeitverlust durch Nachfragen und Suchen",
-  "Schnellere Verfügbarkeit von entscheidendem Wissen",
-  "Entlastung bei Personalwechsel und Einarbeitung",
-  "Mehr Stabilität im täglichen Ablauf",
-];
-
-const retailPoints = [
-  "Schnellere Orientierung im Markt",
-  "Höhere Kundenzufriedenheit",
-  "Weniger Suchfrust im Einkaufsalltag",
-  "Neue Einblicke in reale Kundenbedürfnisse",
+  {
+    icon: Boxes,
+    title: "Produktbezogene Auswahl",
+    text: "Wissen bleibt sauber produktbezogen und damit greifbar – statt in allgemeinen Chatverläufen zu verschwimmen.",
+  },
+  {
+    icon: Cpu,
+    title: "API-basierte Integration",
+    text: "Aktuell ist das System als API-Variante gedacht und kann in bestehende Abläufe oder Oberflächen eingebunden werden.",
+  },
 ];
 
 const advantages = [
   {
-    title: "Schnell nutzbar",
-    text: "Informationen sollen in kurzer Zeit verfügbar sein – ohne unnötige Umwege.",
+    title: "Klarer Nutzen",
+    text: "Keine abstrakten Systeme, sondern konkrete Lösungen für echte operative Herausforderungen.",
   },
   {
-    title: "Intuitiv aufgebaut",
-    text: "Die Nutzung ist verständlich aufgebaut und auf einen klaren praktischen Mehrwert ausgerichtet.",
+    title: "Verständlich aufgebaut",
+    text: "Sowohl im Markt als auch im Betrieb steht eine einfache Nutzung im Vordergrund – nicht technische Komplexität.",
   },
   {
-    title: "Praxisorientiert gedacht",
-    text: "Die Systeme entstehen nicht aus Theorie, sondern aus realen Herausforderungen im Arbeitsalltag.",
+    title: "Praxisnah entwickelt",
+    text: "Vevoga Systems entsteht aus realen Anforderungen aus Einzelhandel und Industrie – nicht aus Theorie.",
+  },
+];
+
+const retailShowcase = [
+  {
+    src: "/retail-kundenansicht.png",
+    eyebrow: "Kundenansicht",
+    title: "Produkt gefunden – sofort mit Standortangabe.",
+    text: "Der Kunde sieht direkt, wo sich das gesuchte Produkt befindet – inklusive Gang, Regal und Ebene.",
+  },
+  {
+    src: "/retail-statistik.png",
+    eyebrow: "Statistik",
+    title: "Suchanfragen und Trefferquote auf einen Blick.",
+    text: "Das Dashboard macht sichtbar, wie häufig gesucht wird und wie hoch die Treffer- oder Nulltrefferquote im Markt ist.",
+  },
+  {
+    src: "/retail-analyse.png",
+    eyebrow: "Analyse",
+    title: "Trends erkennen statt nur Verkäufe auszuwerten.",
+    text: "Treffer und Nulltreffer lassen sich über Zeiträume vergleichen – für bessere Entscheidungen im Sortiment.",
+  },
+  {
+    src: "/retail-produkte.png",
+    eyebrow: "Verwaltung",
+    title: "CSV oder Excel importieren und sofort starten.",
+    text: "Produktdaten, Gänge, Regale und Kategorien werden zentral gepflegt und schnell übernommen.",
+  },
+];
+
+const knowledgeShowcase = [
+  {
+    src: "/knowledge-barcode.png",
+    eyebrow: "Fehlerbeschreibung",
+    title: "Klare Maßnahmen statt unnötiger Rückfragen.",
+    text: "Ein Fehlerbild wie „Barcode nicht lesbar“ wird direkt mit Ursache und Maßnahme beantwortet – verständlich und umsetzbar.",
+  },
+  {
+    src: "/knowledge-prozess.png",
+    eyebrow: "Prozessdarstellung",
+    title: "Komplexe Abläufe Schritt für Schritt aufbereitet.",
+    text: "Auch längere Prozessbeschreibungen bleiben strukturiert und produktbezogen abrufbar – genau dort, wo das Wissen gebraucht wird.",
   },
 ];
 
@@ -104,7 +185,7 @@ function BrandMark() {
   );
 }
 
-function InfoCard({
+function FeatureCard({
   icon: Icon,
   title,
   text,
@@ -124,47 +205,75 @@ function InfoCard({
   );
 }
 
-function SolutionCard({
+function SplitCard({
   icon: Icon,
-  label,
+  eyebrow,
   title,
   text,
-  points,
-  closing,
+  cta,
+  id,
 }: {
   icon: React.ComponentType<{ className?: string }>;
-  label: string;
+  eyebrow: string;
   title: string;
   text: string;
-  points: string[];
-  closing: string;
+  cta: string;
+  id: string;
 }) {
   return (
-    <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-[#0f1117]/90 p-8 shadow-[0_18px_80px_rgba(0,0,0,0.35)] md:p-10">
+    <div className="relative overflow-hidden rounded-[34px] border border-white/10 bg-white/[0.04] p-8 shadow-[0_18px_80px_rgba(0,0,0,0.3)] md:p-10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.08),transparent_28%)]" />
       <div className="relative">
-        <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06]">
-            <Icon className="h-5 w-5 text-white/80" />
-          </div>
-          <div className="text-xs font-medium uppercase tracking-[0.22em] text-white/45">{label}</div>
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.06]">
+          <Icon className="h-5 w-5 text-white/80" />
         </div>
-        <h3 className="mt-6 max-w-xl text-3xl font-semibold leading-tight tracking-tight text-white md:text-[2rem]">
+        <div className="mt-6 text-xs font-medium uppercase tracking-[0.22em] text-white/45">
+          {eyebrow}
+        </div>
+        <h3 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white">
           {title}
         </h3>
-        <p className="mt-5 max-w-2xl text-base leading-8 text-white/68">{text}</p>
-        <div className="mt-8 grid gap-3">
-          {points.map((point) => (
-            <div
-              key={point}
-              className="flex items-start gap-3 rounded-2xl border border-white/8 bg-white/[0.03] px-4 py-3 text-sm leading-7 text-white/72"
-            >
-              <ChevronRight className="mt-1 h-4 w-4 shrink-0 text-white/45" />
-              <span>{point}</span>
-            </div>
-          ))}
+        <p className="mt-5 max-w-xl text-base leading-8 text-white/66">{text}</p>
+        <a
+          href={`#${id}`}
+          className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-5 py-3 text-sm font-semibold text-[#0b0d12] transition duration-300 hover:-translate-y-0.5"
+        >
+          {cta}
+          <ArrowRight className="h-4 w-4" />
+        </a>
+      </div>
+    </div>
+  );
+}
+
+function ShowcaseRow({
+  src,
+  eyebrow,
+  title,
+  text,
+  reverse = false,
+}: {
+  src: string;
+  eyebrow: string;
+  title: string;
+  text: string;
+  reverse?: boolean;
+}) {
+  return (
+    <div className="grid items-center gap-10 lg:grid-cols-2">
+      <div className={reverse ? "lg:order-2" : ""}>
+        <div className="overflow-hidden rounded-[28px] border border-white/10 bg-[#0d1015] shadow-[0_20px_80px_rgba(0,0,0,0.35)]">
+          <img src={src} alt={title} className="block h-auto w-full" />
         </div>
-        <p className="mt-8 text-lg font-medium tracking-tight text-white/92">{closing}</p>
+      </div>
+      <div className={reverse ? "lg:order-1" : ""}>
+        <div className="text-xs font-medium uppercase tracking-[0.22em] text-white/40">
+          {eyebrow}
+        </div>
+        <h3 className="mt-4 text-3xl font-semibold leading-tight tracking-tight text-white md:text-4xl">
+          {title}
+        </h3>
+        <p className="mt-5 max-w-xl text-base leading-8 text-white/66">{text}</p>
       </div>
     </div>
   );
@@ -175,52 +284,20 @@ export default function VevogaSystemsLandingPage() {
     name: "",
     company: "",
     email: "",
-    area: "Industrial Solution",
+    area: "Retail System",
     message: "",
   });
 
   const [status, setStatus] = useState<"idle" | "success">("idle");
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
-
-  try {
-    setStatus("idle");
-
-    const response = await fetch("/api/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: formData.name,
-        company: formData.company,
-        email: formData.email,
-        phone: "",
-        message: `Bereich: ${formData.area}\n\n${formData.message}`,
-      }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Versand fehlgeschlagen.");
-    }
-
-    setStatus("success");
-    setFormData({
-      name: "",
-      company: "",
-      email: "",
-      area: "Industrial Solution",
-      message: "",
-    });
-  } catch (error) {
-    console.error(error);
-    alert("Die Nachricht konnte nicht gesendet werden. Bitte versuche es erneut.");
-  }
-};
+  const mailtoHref = useMemo(() => {
+    const subject = encodeURIComponent(`Vevoga Systems – ${formData.area}`);
+    const body = encodeURIComponent(
+      `Name: ${formData.name || "-"}\nUnternehmen: ${formData.company || "-"}\nE-Mail: ${formData.email || "-"}\nBereich: ${formData.area}\n\nNachricht:\n${formData.message || "-"}`
+    );
+    return `mailto:info@vevoga-systems.de?subject=${subject}&body=${body}`;
+  }, [formData]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -229,7 +306,11 @@ export default function VevogaSystemsLandingPage() {
     if (status !== "idle") setStatus("idle");
   };
 
-  
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    window.location.href = mailtoHref;
+    setStatus("success");
+  };
 
   return (
     <div
@@ -249,15 +330,17 @@ export default function VevogaSystemsLandingPage() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 md:px-10 lg:px-12">
           <div className="flex items-center gap-3">
             <BrandMark />
-            <div className="text-sm font-semibold tracking-[0.28em] text-white">VEVOGA SYSTEMS</div>
+            <div className="text-sm font-semibold tracking-[0.28em] text-white">
+              VEVOGA SYSTEMS
+            </div>
           </div>
 
           <nav className="hidden items-center gap-8 text-sm text-white/60 md:flex">
-            <a href="#solutions" className="transition hover:text-white">
-              Solutions
+            <a href="#retail" className="transition hover:text-white">
+              Retail
             </a>
-            <a href="#why" className="transition hover:text-white">
-              Warum Vevoga?
+            <a href="#knowledge" className="transition hover:text-white">
+              Knowledge
             </a>
             <a href="#pilot" className="transition hover:text-white">
               Pilot
@@ -295,103 +378,148 @@ export default function VevogaSystemsLandingPage() {
               transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
               style={{ backgroundSize: "100% 220%" }}
             >
-              Wissen verfügbar machen. Prozesse beschleunigen.
+              Zwei Systeme. Ein Ziel.
               <br />
-              Für Industrie und Einzelhandel
+              Prozesse vereinfachen.
             </motion.h1>
-            <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-white/62 md:text-xl">
-              Wenn Zeit verloren geht durch Suchen, Nachfragen oder fehlende Orientierung, entsteht
-              Stillstand. Vevoga Systems schafft sofortigen Zugriff auf das, was wirklich gebraucht wird –
-              genau im richtigen Moment.
+            <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-white/62 md:text-xl">
+              Von der Produktsuche im Markt bis zur schnellen Verfügbarkeit von Prozess-
+              und Erfahrungswissen im Betrieb: Vevoga Systems entwickelt Lösungen, die
+              sofort greifbar sind und im Alltag echten Nutzen schaffen.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
               <a
-                href="#solutions"
+                href="#retail"
                 className="inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-[#0b0d12] shadow-[0_18px_60px_rgba(255,255,255,0.16)] transition duration-300 hover:-translate-y-0.5 hover:scale-[1.02]"
               >
-                Jetzt Lösung ansehen
+                Retail System entdecken
                 <ArrowRight className="h-4 w-4" />
               </a>
               <a
-                href="#contact"
+                href="#knowledge"
                 className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.04] px-6 py-3.5 text-sm font-semibold text-white transition duration-300 hover:border-white/25 hover:bg-white/[0.08]"
               >
-                Pilot anfragen
+                Knowledge System entdecken
               </a>
             </div>
           </motion.div>
-
-          <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
-            className="mx-auto mt-20 grid max-w-6xl gap-6 md:grid-cols-3"
-          >
-            {pillars.map((pillar) => (
-              <InfoCard key={pillar.title} icon={pillar.icon} title={pillar.title} text={pillar.text} />
-            ))}
-          </motion.div>
         </section>
 
-        <section id="solutions" className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12 lg:py-28">
-          <motion.div {...fadeUp} className="mb-14 text-center">
-            <h2 className="text-4xl font-semibold tracking-tight md:text-5xl">Solutions</h2>
-            <p className="mx-auto mt-5 max-w-2xl text-lg leading-8 text-white/58">
-              Zwei fokussierte Lösungen für reale operative Herausforderungen.
-            </p>
-          </motion.div>
-
+        <section className="mx-auto max-w-7xl px-6 pb-10 md:px-10 lg:px-12 lg:pb-20">
           <div className="grid gap-8 lg:grid-cols-2">
-            <motion.div
-              {...fadeUp}
-              whileHover={{ y: -6, rotateX: 1.2, rotateY: -1.2 }}
-              transition={{ duration: 0.35 }}
-              className="[transform-style:preserve-3d]"
-            >
-              <SolutionCard
-                icon={Factory}
-                label="Industrial Solution"
-                title="Wissen verfügbar machen. Prozesse stabilisieren. Zeit sparen."
-                text="In vielen Unternehmen entsteht entscheidendes Wissen nicht in Dokumentationen, sondern im Alltag. Über Jahre aufgebaut – und oft nur bei wenigen Personen vorhanden. Wenn dieses Wissen fehlt, entstehen Verzögerungen, Unsicherheiten und unnötige Stillstände. Vevoga Systems ermöglicht einen schnellen Zugriff auf relevantes Erfahrungs- und Prozesswissen – genau dort, wo es benötigt wird."
-                points={industrialPoints}
-                closing="Wissen, das verfügbar ist, wirkt."
-              />
-            </motion.div>
-
-            <motion.div
-              {...fadeUp}
-              whileHover={{ y: -6, rotateX: -1.2, rotateY: 1.2 }}
-              transition={{ duration: 0.35 }}
-              className="[transform-style:preserve-3d]"
-            >
-              <SolutionCard
-                icon={Store}
-                label="Retail Solution"
-                title="Produktsuche vereinfachen. Kundenzufriedenheit steigern. Verhalten verstehen."
-                text="Im stationären Einzelhandel entscheidet oft ein einfacher Faktor über den Kauf: Wird das gesuchte Produkt gefunden – oder nicht. Lange Suchzeiten, volle Märkte und fehlende Orientierung führen schnell zu Frust und Kaufabbrüchen. Vevoga Systems ermöglicht eine schnelle und einfache Produktsuche im Markt und schafft gleichzeitig neue Einblicke in das tatsächliche Suchverhalten der Kundschaft."
-                points={retailPoints}
-                closing="Nicht nur Verkäufe zählen – sondern auch die Suche davor."
-              />
-            </motion.div>
+            {splitCards.map((card) => (
+              <motion.div key={card.id} {...fadeUp}>
+                <SplitCard {...card} />
+              </motion.div>
+            ))}
           </div>
         </section>
 
-        <section id="why" className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12 lg:py-28">
-          <motion.div {...fadeUp} className="text-center">
-            <h2 className="text-4xl font-semibold tracking-tight md:text-5xl">Warum Vevoga?</h2>
-            <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white/60">
-              Vevoga Systems steht für Klarheit, Einfachheit und echte Anwendbarkeit im Alltag.
+        <section id="retail" className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12 lg:py-28">
+          <motion.div {...fadeUp} className="max-w-3xl">
+            <SectionEyebrow>Retail System</SectionEyebrow>
+            <h2 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
+              Produktsuche im Markt – in Sekunden, in jeder Sprache.
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-white/62">
+              Kunden scannen einen QR-Code mit dem Smartphone und finden sofort, wo ein
+              Produkt steht – inklusive Gang, Regal und Ebene. Gleichzeitig erhalten
+              Märkte wertvolle Einblicke in Suchverhalten, Trefferquoten und Produkte,
+              die fehlen oder nicht gefunden werden.
             </p>
           </motion.div>
 
-          <motion.div {...fadeUp} className="mt-14 grid gap-6 md:grid-cols-3">
+          <motion.div {...fadeUp} className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {retailFeatures.map((feature) => (
+              <FeatureCard key={feature.title} {...feature} />
+            ))}
+          </motion.div>
+
+          <div className="mt-20 grid gap-20">
+            {retailShowcase.map((item, index) => (
+              <motion.div key={item.title} {...fadeUp}>
+                <ShowcaseRow {...item} reverse={index % 2 === 1} />
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            {...fadeUp}
+            className="mt-20 rounded-[32px] border border-white/10 bg-white/[0.04] p-8 shadow-[0_18px_70px_rgba(0,0,0,0.3)] md:p-10"
+          >
+            <div className="max-w-3xl">
+              <h3 className="text-3xl font-semibold tracking-tight">
+                Mehr Umsatz. Weniger Fragen. Klare Daten.
+              </h3>
+              <p className="mt-5 text-base leading-8 text-white/64">
+                Das Retail System verbindet schnelle Kundennavigation mit echter
+                Datentransparenz im Markt – verständlich, mehrsprachig und ohne unnötige
+                Hürden auf Kundenseite.
+              </p>
+            </div>
+          </motion.div>
+        </section>
+
+        <section
+          id="knowledge"
+          className="mx-auto max-w-7xl px-6 py-20 md:px-10 lg:px-12 lg:py-28"
+        >
+          <motion.div {...fadeUp} className="max-w-3xl">
+            <SectionEyebrow>Knowledge System</SectionEyebrow>
+            <h2 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
+              Wissen verfügbar machen. Prozesse stabilisieren. Antworten sofort liefern.
+            </h2>
+            <p className="mt-6 text-lg leading-8 text-white/62">
+              In vielen Betrieben entsteht entscheidendes Wissen nicht in Dokumentationen,
+              sondern im Alltag – über Jahre aufgebaut und oft nur bei wenigen Personen
+              vorhanden. Das Knowledge System macht dieses Wissen strukturiert,
+              produktbezogen und direkt abrufbar.
+            </p>
+          </motion.div>
+
+          <motion.div {...fadeUp} className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+            {knowledgeFeatures.map((feature) => (
+              <FeatureCard key={feature.title} {...feature} />
+            ))}
+          </motion.div>
+
+          <div className="mt-20 grid gap-20">
+            {knowledgeShowcase.map((item, index) => (
+              <motion.div key={item.title} {...fadeUp}>
+                <ShowcaseRow {...item} reverse={index % 2 === 1} />
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div
+            {...fadeUp}
+            className="mt-20 rounded-[32px] border border-white/10 bg-white/[0.04] p-8 shadow-[0_18px_70px_rgba(0,0,0,0.3)] md:p-10"
+          >
+            <div className="max-w-3xl">
+              <h3 className="text-3xl font-semibold tracking-tight">
+                Das Wissen Ihrer besten Mitarbeiter – dauerhaft verfügbar.
+              </h3>
+              <p className="mt-5 text-base leading-8 text-white/64">
+                Das Knowledge System ist auf schnellen Zugriff, klare Antworten und saubere
+                Struktur ausgelegt – nicht auf komplizierte Technik. Aktuell wird die
+                Lösung als API-Variante angeboten.
+              </p>
+            </div>
+          </motion.div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-6 py-10 md:px-10 lg:px-12 lg:py-16">
+          <motion.div {...fadeUp} className="grid gap-6 md:grid-cols-3">
             {advantages.map((item) => (
               <div
                 key={item.title}
                 className="group rounded-[30px] border border-white/10 bg-white/[0.04] p-8 shadow-[0_18px_70px_rgba(0,0,0,0.28)] transition duration-300 hover:border-white/20 hover:bg-white/[0.06]"
               >
                 <div className="h-px w-14 bg-gradient-to-r from-white/70 to-transparent transition duration-300 group-hover:w-24" />
-                <h3 className="mt-6 text-2xl font-semibold tracking-tight text-white">{item.title}</h3>
+                <h3 className="mt-6 text-2xl font-semibold tracking-tight text-white">
+                  {item.title}
+                </h3>
                 <p className="mt-4 text-sm leading-7 text-white/64">{item.text}</p>
               </div>
             ))}
@@ -407,19 +535,19 @@ export default function VevogaSystemsLandingPage() {
             <div className="relative max-w-4xl">
               <SectionEyebrow>Pilotprojekte</SectionEyebrow>
               <h2 className="mt-6 text-3xl font-semibold tracking-tight md:text-5xl">
-                Gemeinsam im realen Einsatz weiterentwickeln
+                Gemeinsam im realen Einsatz testen und weiterentwickeln
               </h2>
               <p className="mt-6 text-lg leading-8 text-white/66">
-                Aktuell suchen wir gezielt Unternehmen, die moderne Lösungen unter realen Bedingungen
-                einsetzen und gemeinsam weiterentwickeln möchten. Im Fokus stehen Betriebe, die konkrete
-                Herausforderungen nicht nur verwalten, sondern strukturiert lösen wollen – mit klarer
-                Rückmeldung aus dem tatsächlichen Einsatz.
+                Ob Markt oder Betrieb: Wir suchen Unternehmen, die konkrete
+                Herausforderungen nicht nur verwalten, sondern unter realen Bedingungen
+                lösen möchten. Pilotpartner erhalten direkten Austausch, kurze Wege und
+                einen klaren Einblick in das System.
               </p>
               <a
                 href="#contact"
                 className="mt-8 inline-flex items-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-[#0b0d12] transition hover:-translate-y-0.5"
               >
-                Pilotmöglichkeit anfragen
+                Pilot anfragen
                 <ArrowRight className="h-4 w-4" />
               </a>
             </div>
@@ -437,14 +565,16 @@ export default function VevogaSystemsLandingPage() {
                 Lassen Sie uns über Ihr Vorhaben sprechen
               </h2>
               <p className="mt-6 text-base leading-8 text-white/64">
-                Für Anfragen, Pilotprojekte oder weitere Informationen erreichen Sie uns direkt per E-Mail
-                oder über das Kontaktformular.
+                Für Pilotprojekte, Rückfragen oder eine erste Einordnung erreichen Sie uns
+                direkt per E-Mail oder über das Kontaktformular.
               </p>
 
               <div className="mt-8 rounded-[24px] border border-white/10 bg-[#0f1218] p-5">
                 <div className="flex items-center gap-3 text-white/85">
                   <Mail className="h-5 w-5" />
-                  <span className="text-sm uppercase tracking-[0.2em] text-white/45">E-Mail</span>
+                  <span className="text-sm uppercase tracking-[0.2em] text-white/45">
+                    E-Mail
+                  </span>
                 </div>
                 <a
                   href="mailto:info@vevoga-systems.de"
@@ -505,8 +635,8 @@ export default function VevogaSystemsLandingPage() {
                       onChange={handleChange}
                       className="rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3.5 text-white outline-none transition focus:border-white/25 focus:bg-white/[0.06]"
                     >
-                      <option className="bg-[#0d1015]">Industrial Solution</option>
-                      <option className="bg-[#0d1015]">Retail Solution</option>
+                      <option className="bg-[#0d1015]">Retail System</option>
+                      <option className="bg-[#0d1015]">Knowledge System</option>
                       <option className="bg-[#0d1015]">Allgemeine Anfrage</option>
                     </select>
                   </label>
@@ -528,12 +658,13 @@ export default function VevogaSystemsLandingPage() {
                 <div className="flex flex-col gap-4 pt-2 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="max-w-md text-xs leading-6 text-white/42">
-                      Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Anfrage zur Kontaktaufnahme zu.
+                      Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Anfrage zur
+                      Kontaktaufnahme zu.
                     </p>
                     {status === "success" && (
                       <p className="mt-2 text-xs leading-6 text-white/62">
-                        Ihre E-Mail-Anwendung wurde geöffnet. Prüfen Sie den vorausgefüllten Entwurf und
-                        senden Sie ihn ab.
+                        Ihre E-Mail-Anwendung wurde geöffnet. Prüfen Sie den vorausgefüllten
+                        Entwurf und senden Sie ihn ab.
                       </p>
                     )}
                   </div>
@@ -550,26 +681,23 @@ export default function VevogaSystemsLandingPage() {
           </div>
         </section>
       </main>
+
       <footer className="border-t border-white/10">
-  <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-10 text-sm text-white/40 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12">
-    
-    <div>© 2026 Vevoga Systems</div>
-
-    <div className="flex items-center gap-6">
-      <a href="#contact" className="transition hover:text-white/70">
-        Kontakt
-      </a>
-      <a href="/impressum" className="transition hover:text-white/70">
-        Impressum
-      </a>
-      <a href="/datenschutz" className="transition hover:text-white/70">
-        Datenschutz
-      </a>
+        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-10 text-sm text-white/40 md:flex-row md:items-center md:justify-between md:px-10 lg:px-12">
+          <div>© 2026 Vevoga Systems</div>
+          <div className="flex items-center gap-6">
+            <a href="#contact" className="transition hover:text-white/70">
+              Kontakt
+            </a>
+            <a href="/impressum" className="transition hover:text-white/70">
+              Impressum
+            </a>
+            <a href="/datenschutz" className="transition hover:text-white/70">
+              Datenschutz
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
-
-  </div>
-</footer>
-
-</div>
-);
+  );
 }
