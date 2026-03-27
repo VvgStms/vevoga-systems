@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   ArrowRight,
   Mail,
@@ -288,16 +288,10 @@ export default function VevogaSystemsLandingPage() {
     message: "",
   });
 
-  const [status, setStatus] = useState<"idle" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
+    "idle"
+  );
   const [cursor, setCursor] = useState({ x: 0, y: 0 });
-
-  const mailtoHref = useMemo(() => {
-    const subject = encodeURIComponent(`Vevoga Systems – ${formData.area}`);
-    const body = encodeURIComponent(
-      `Name: ${formData.name || "-"}\nUnternehmen: ${formData.company || "-"}\nE-Mail: ${formData.email || "-"}\nBereich: ${formData.area}\n\nNachricht:\n${formData.message || "-"}`
-    );
-    return `mailto:info@vevoga-systems.de?subject=${subject}&body=${body}`;
-  }, [formData]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -306,10 +300,37 @@ export default function VevogaSystemsLandingPage() {
     if (status !== "idle") setStatus("idle");
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    window.location.href = mailtoHref;
-    setStatus("success");
+    setStatus("loading");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.success) {
+        setStatus("error");
+        return;
+      }
+
+      setStatus("success");
+      setFormData({
+        name: "",
+        company: "",
+        email: "",
+        area: "Retail System",
+        message: "",
+      });
+    } catch {
+      setStatus("error");
+    }
   };
 
   return (
@@ -661,18 +682,32 @@ export default function VevogaSystemsLandingPage() {
                       Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Anfrage zur
                       Kontaktaufnahme zu.
                     </p>
-                    {status === "success" && (
+
+                    {status === "loading" && (
                       <p className="mt-2 text-xs leading-6 text-white/62">
-                        Ihre E-Mail-Anwendung wurde geöffnet. Prüfen Sie den vorausgefüllten
-                        Entwurf und senden Sie ihn ab.
+                        Anfrage wird gesendet...
+                      </p>
+                    )}
+
+                    {status === "success" && (
+                      <p className="mt-2 text-xs leading-6 text-green-400">
+                        Anfrage erfolgreich gesendet.
+                      </p>
+                    )}
+
+                    {status === "error" && (
+                      <p className="mt-2 text-xs leading-6 text-red-400">
+                        Versand fehlgeschlagen. Bitte versuchen Sie es erneut.
                       </p>
                     )}
                   </div>
+
                   <button
                     type="submit"
-                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-[#0b0d12] transition hover:-translate-y-0.5 hover:scale-[1.02]"
+                    disabled={status === "loading"}
+                    className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-6 py-3.5 text-sm font-semibold text-[#0b0d12] transition hover:-translate-y-0.5 hover:scale-[1.02] disabled:cursor-not-allowed disabled:opacity-70"
                   >
-                    Anfrage senden
+                    {status === "loading" ? "Wird gesendet..." : "Anfrage senden"}
                     <ArrowRight className="h-4 w-4" />
                   </button>
                 </div>
