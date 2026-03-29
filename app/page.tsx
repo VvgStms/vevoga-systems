@@ -394,7 +394,7 @@ export default function VevogaSystemsLandingPage() {
           <motion.div {...fadeUp} className="mx-auto max-w-5xl text-center">
             <SectionEyebrow>Vevoga Systems</SectionEyebrow>
             <motion.h1
-              className="mt-8 bg-gradient-to-b from-white via-white to-white/55 bg-clip-text text-5xl font-semibold leading-[1.02] tracking-tight text-transparent md:text-7xl lg:text-[5.25rem]"
+              className=className="mt-8 bg-gradient-to-b from-white via-white to-white/55 bg-clip-text text-4xl font-semibold leading-[1.08] tracking-tight text-transparent md:text-5xl lg:text-[3.75rem]"
               animate={{ backgroundPosition: ["50% 0%", "50% 100%", "50% 0%"] }}
               transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
               style={{ backgroundSize: "100% 220%" }}
