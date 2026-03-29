@@ -31,16 +31,16 @@ const splitCards = [
     id: "retail",
     icon: Store,
     eyebrow: "Retail System",
-    title: "Produktsuche im Markt – schnell, verständlich und ohne App.",
-    text: "Kunden finden Produkte in Sekunden. Gleichzeitig sehen Sie, wonach gesucht wird, was gefunden wird und wo Potenziale im Sortiment liegen.",
+    title: "Ihr Kunde sucht. Findet nicht. Geht.",
+    text: "Jede fehlgeschlagene Suche ist ein verlorener Kauf — still, unsichtbar, täglich. Das Retail System macht beides sichtbar: den Weg für Ihren Kunden, die Lücken für Sie.",
     cta: "Retail System entdecken",
   },
   {
     id: "knowledge",
     icon: Factory,
     eyebrow: "Knowledge System",
-    title: "Wissen verfügbar machen. Prozesse stabilisieren. Antworten sofort liefern.",
-    text: "Das System stellt relevantes Prozess- und Erfahrungswissen direkt bereit – strukturiert, verständlich und auf den Arbeitsalltag ausgerichtet.",
+    title: "Wissen, das nur im Kopf eines Einzigen steckt, ist kein Wissen — es ist ein Risiko.",
+    text: "Ob Azubi, Spätschicht oder neuer Kollege — das Knowledge System gibt sofort die richtige Antwort. Auch wenn der Experte gerade nicht da ist.",
     cta: "Knowledge System entdecken",
   },
 ];
@@ -48,61 +48,61 @@ const splitCards = [
 const retailFeatures = [
   {
     icon: Smartphone,
-    title: "Ohne App nutzbar",
-    text: "QR-Code scannen, Produkt eingeben, Standort sehen – ohne Installation oder Registrierung.",
+    title: "Kein Download. Keine Anmeldung. Einfach scannen.",
+    text: "Jeder Kunde — egal wie alt, egal mit welchem Handy — ist sofort drin. Keine Erklärung nötig. Keine Hürde.",
   },
   {
     icon: Search,
-    title: "Sofortige Orientierung",
-    text: "Produkte werden direkt mit Gang, Regal und Ebene angezeigt – klar und verständlich für den Kunden.",
+    title: "Direkt zum Regal. Ohne Personal. Ohne Umwege.",
+    text: "Kein Personal fragen. Kein langes Suchen. Der Kunde findet alleine — und das merkt er.",
   },
   {
     icon: BarChart3,
-    title: "Suchverhalten sichtbar",
-    text: "Sie sehen, welche Produkte gesucht werden, wann Stoßzeiten entstehen und wo Nulltreffer auftreten.",
+    title: "Null-Treffer sind keine Statistik — sie sind entgangener Umsatz.",
+    text: "Das Dashboard zeigt Ihnen täglich: Was suchen Kunden — und finden es nicht? Genau das gehört ins Sortiment.",
   },
   {
     icon: FileSpreadsheet,
-    title: "CSV oder Excel Import",
-    text: "Produkte, Standorte und Kategorien lassen sich schnell importieren und zentral pflegen.",
+    title: "In einer Stunde einsatzbereit. Heute noch.",
+    text: "Produktliste per CSV oder Excel importieren, QR-Code aufhängen — fertig. Keine IT-Abteilung. Kein Aufwand.",
   },
 ];
 
 const knowledgeFeatures = [
   {
     icon: MessageSquare,
-    title: "Direkte Antworten",
-    text: "Mitarbeitende erhalten schnell strukturierte Antworten auf Fehlerbilder, Maßnahmen und Prozessfragen.",
+    title: "Experte krank. Spätschicht. Niemand erreichbar. Kein Problem.",
+    text: "Fehlerbild eingeben — Ursache und Lösung sofort. Kein Warten. Kein Anruf. Kein Raten.",
   },
   {
     icon: Workflow,
-    title: "Strukturiertes Prozesswissen",
-    text: "Abläufe werden schrittweise dargestellt, statt nur lose Informationen oder einzelne Dokumente zu zeigen.",
+    title: "Derselbe Fehler zum dritten Mal? Nie wieder.",
+    text: "Wiederkehrende Fehlerbilder werden einmal gelöst und dauerhaft hinterlegt — damit niemand mehr von vorne anfangen muss.",
   },
   {
     icon: Boxes,
-    title: "Produktbezogene Auswahl",
-    text: "Wissen bleibt sauber produktbezogen und damit greifbar – statt in allgemeinen Chatverläufen zu verschwimmen.",
+    title: "Auch der Azubi findet sofort die richtige Antwort.",
+    text: "Schritt für Schritt durch jeden Prozess — präzise, produktbezogen, für jeden verständlich. Ohne auf jemanden warten zu müssen.",
   },
   {
     icon: Cpu,
-    title: "API-basierte Integration",
-    text: "Aktuell ist das System als API-Variante gedacht und kann in bestehende Abläufe oder Oberflächen eingebunden werden.",
+    title: "Ihr bester Mann geht bald in Rente. Sein Wissen bleibt.",
+    text: "Was jahrelang nur im Kopf einer Person steckte, wird gesichert — bevor sie geht. Nicht danach.",
   },
 ];
 
 const advantages = [
   {
-    title: "Klarer Nutzen",
-    text: "Keine abstrakten Systeme, sondern konkrete Lösungen für echte operative Herausforderungen.",
+    title: "Kein Konzept. Ein Ergebnis.",
+    text: "Sie sehen sofort was es bringt — keine langen Präsentationen, keine Versprechen auf Papier.",
   },
   {
-    title: "Verständlich aufgebaut",
-    text: "Sowohl im Markt als auch im Betrieb steht eine einfache Nutzung im Vordergrund – nicht technische Komplexität.",
+    title: "Jeder kann es — sofort.",
+    text: "Keine Schulung. Keine IT-Kenntnisse. Keine Geduld nötig. Im Markt wie im Betrieb.",
   },
   {
-    title: "Praxisnah entwickelt",
-    text: "Vevoga Systems entsteht aus realen Anforderungen aus Einzelhandel und Industrie – nicht aus Theorie.",
+    title: "Aus der Praxis — nicht aus dem Labor.",
+    text: "Entwickelt an echten Problemen aus Einzelhandel und Fertigung. Nicht am Whiteboard.",
   },
 ];
 
@@ -110,26 +110,26 @@ const retailShowcase = [
   {
     src: "/retail-kundenansicht.png",
     eyebrow: "Kundenansicht",
-    title: "Produkt gefunden – sofort mit Standortangabe.",
-    text: "Der Kunde sieht direkt, wo sich das gesuchte Produkt befindet – inklusive Gang, Regal und Ebene.",
+    title: "Produkt gefunden — der Kunde sieht sofort wo es steht.",
+    text: "Gang, Regal und Ebene auf einen Blick — klar, direkt, ohne Erklärung. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
   },
   {
     src: "/retail-statistik.png",
     eyebrow: "Statistik",
-    title: "Suchanfragen und Trefferquote auf einen Blick.",
-    text: "Das Dashboard macht sichtbar, wie häufig gesucht wird und wie hoch die Treffer- oder Nulltrefferquote im Markt ist.",
+    title: "Wie viele Kunden haben heute nicht gefunden, was sie gesucht haben?",
+    text: "Das Dashboard macht sichtbar, wie häufig gesucht wird und wie hoch die Treffer- oder Nulltrefferquote im Markt ist. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
   },
   {
     src: "/retail-analyse.png",
     eyebrow: "Analyse",
-    title: "Trends erkennen statt nur Verkäufe auszuwerten.",
-    text: "Treffer und Nulltreffer lassen sich über Zeiträume vergleichen – für bessere Entscheidungen im Sortiment.",
+    title: "Nicht was verkauft wurde — sondern was gesucht und nicht gefunden wurde.",
+    text: "Treffer und Nulltreffer lassen sich über Zeiträume vergleichen — für bessere Entscheidungen im Sortiment. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
   },
   {
     src: "/retail-produkte.png",
     eyebrow: "Verwaltung",
-    title: "CSV oder Excel importieren und sofort starten.",
-    text: "Produktdaten, Gänge, Regale und Kategorien werden zentral gepflegt und schnell übernommen.",
+    title: "Ihre Produkte rein — System läuft. Heute noch.",
+    text: "Produktdaten, Gänge, Regale und Kategorien werden zentral gepflegt und schnell übernommen. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
   },
 ];
 
@@ -137,14 +137,14 @@ const knowledgeShowcase = [
   {
     src: "/knowledge-barcode.png",
     eyebrow: "Fehlerbeschreibung",
-    title: "Klare Maßnahmen statt unnötiger Rückfragen.",
-    text: "Ein Fehlerbild wie „Barcode nicht lesbar“ wird direkt mit Ursache und Maßnahme beantwortet – verständlich und umsetzbar.",
+    title: "Problem beschreiben — Lösung sofort. Kein Anruf beim Kollegen.",
+    text: "Ein Fehlerbild wie „Barcode nicht lesbar“ wird direkt mit Ursache und Maßnahme beantwortet — verständlich und umsetzbar. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
   },
   {
     src: "/knowledge-prozess.png",
     eyebrow: "Prozessdarstellung",
-    title: "Komplexe Abläufe Schritt für Schritt aufbereitet.",
-    text: "Auch längere Prozessbeschreibungen bleiben strukturiert und produktbezogen abrufbar – genau dort, wo das Wissen gebraucht wird.",
+    title: "Auch der neue Kollege findet sich vom ersten Tag an zurecht.",
+    text: "Auch längere Prozessbeschreibungen bleiben strukturiert und produktbezogen abrufbar — genau dort, wo das Wissen gebraucht wird. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
   },
 ];
 
@@ -399,14 +399,12 @@ export default function VevogaSystemsLandingPage() {
               transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut" }}
               style={{ backgroundSize: "100% 220%" }}
             >
-              Zwei Systeme. Ein Ziel.
+              Was Ihr Kunde nicht findet, kauft er woanders.
               <br />
-              Prozesse vereinfachen.
+              Was Ihr Mitarbeiter weiß, geht verloren — wenn niemand es sichert.
             </motion.h1>
             <p className="mx-auto mt-7 max-w-3xl text-lg leading-8 text-white/62 md:text-xl">
-              Von der Produktsuche im Markt bis zur schnellen Verfügbarkeit von Prozess-
-              und Erfahrungswissen im Betrieb: Vevoga Systems entwickelt Lösungen, die
-              sofort greifbar sind und im Alltag echten Nutzen schaffen.
+              Zwei stille Kostentreiber. Beide lösbar — ohne App, ohne IT-Projekt, ohne großen Aufwand.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
@@ -441,13 +439,10 @@ export default function VevogaSystemsLandingPage() {
           <motion.div {...fadeUp} className="max-w-3xl">
             <SectionEyebrow>Retail System</SectionEyebrow>
             <h2 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
-              Produktsuche im Markt – in Sekunden, in jeder Sprache.
+              Der Kassenbon zeigt, was verkauft wurde. Nicht was verloren ging.
             </h2>
             <p className="mt-6 text-lg leading-8 text-white/62">
-              Kunden scannen einen QR-Code mit dem Smartphone und finden sofort, wo ein
-              Produkt steht – inklusive Gang, Regal und Ebene. Gleichzeitig erhalten
-              Märkte wertvolle Einblicke in Suchverhalten, Trefferquoten und Produkte,
-              die fehlen oder nicht gefunden werden.
+              Kunden, die nichts finden, beschweren sich nicht — sie gehen einfach. Ohne Spur, ohne Feedback. Das Retail System führt sie in Sekunden zum Produkt. Und zeigt Ihnen jeden Tag: Was wird gesucht? Was wird nicht gefunden? Wo liegt bares Geld brach?
             </p>
           </motion.div>
 
@@ -471,12 +466,10 @@ export default function VevogaSystemsLandingPage() {
           >
             <div className="max-w-3xl">
               <h3 className="text-3xl font-semibold tracking-tight">
-                Mehr Umsatz. Weniger Fragen. Klare Daten.
+                Mehr Umsatz kommt nicht immer von mehr Werbung. Manchmal reicht es, wenn der Kunde findet, was er sucht.
               </h3>
               <p className="mt-5 text-base leading-8 text-white/64">
-                Das Retail System verbindet schnelle Kundennavigation mit echter
-                Datentransparenz im Markt – verständlich, mehrsprachig und ohne unnötige
-                Hürden auf Kundenseite.
+                In jeder Sprache. Ohne App. Ohne Erklärung. Und Sie sehen endlich, was Ihnen bisher täglich entgangen ist.
               </p>
             </div>
           </motion.div>
@@ -489,13 +482,10 @@ export default function VevogaSystemsLandingPage() {
           <motion.div {...fadeUp} className="max-w-3xl">
             <SectionEyebrow>Knowledge System</SectionEyebrow>
             <h2 className="mt-6 text-4xl font-semibold tracking-tight md:text-5xl">
-              Wissen verfügbar machen. Prozesse stabilisieren. Antworten sofort liefern.
+              In jedem Betrieb gibt es Wissen, das nirgends steht — und trotzdem alles am Laufen hält.
             </h2>
             <p className="mt-6 text-lg leading-8 text-white/62">
-              In vielen Betrieben entsteht entscheidendes Wissen nicht in Dokumentationen,
-              sondern im Alltag – über Jahre aufgebaut und oft nur bei wenigen Personen
-              vorhanden. Das Knowledge System macht dieses Wissen strukturiert,
-              produktbezogen und direkt abrufbar.
+              Der Experte ist krank — die Maschine steht. Der Azubi steht alleine vor einem Problem — niemand ist erreichbar. Derselbe Fehler passiert zum dritten Mal — weil die Lösung nirgends steht. Das Knowledge System macht Schluss damit: Prozesswissen, Fehlerbilder und Abläufe — strukturiert, abrufbar, für jeden.
             </p>
           </motion.div>
 
@@ -519,12 +509,10 @@ export default function VevogaSystemsLandingPage() {
           >
             <div className="max-w-3xl">
               <h3 className="text-3xl font-semibold tracking-tight">
-                Das Wissen Ihrer besten Mitarbeiter – dauerhaft verfügbar.
+                Das Teuerste, was ein Betrieb verlieren kann, ist nicht die Maschine. Es ist das Wissen, wie man sie repariert.
               </h3>
               <p className="mt-5 text-base leading-8 text-white/64">
-                Das Knowledge System ist auf schnellen Zugriff, klare Antworten und saubere
-                Struktur ausgelegt – nicht auf komplizierte Technik. Aktuell wird die
-                Lösung als API-Variante angeboten.
+                Kein IT-Projekt. Kein Umbau. Das System lernt das Wissen Ihres Betriebs — und gibt es weiter, wann immer es gebraucht wird.
               </p>
             </div>
           </motion.div>
@@ -556,13 +544,10 @@ export default function VevogaSystemsLandingPage() {
             <div className="relative max-w-4xl">
               <SectionEyebrow>Pilotprojekte</SectionEyebrow>
               <h2 className="mt-6 text-3xl font-semibold tracking-tight md:text-5xl">
-                Gemeinsam im realen Einsatz testen und weiterentwickeln
+                Sie haben ein echtes Problem. Wir haben die Lösung. Testen wir es.
               </h2>
               <p className="mt-6 text-lg leading-8 text-white/66">
-                Ob Markt oder Betrieb: Wir suchen Unternehmen, die konkrete
-                Herausforderungen nicht nur verwalten, sondern unter realen Bedingungen
-                lösen möchten. Pilotpartner erhalten direkten Austausch, kurze Wege und
-                einen klaren Einblick in das System.
+                Kein langer Vertrag. Kein IT-Projekt. Sie bringen Ihr Problem — wir bringen das System. Direkt, schnell, ohne Bürokratie.
               </p>
               <a
                 href="#contact"
@@ -583,11 +568,10 @@ export default function VevogaSystemsLandingPage() {
             >
               <SectionEyebrow>Kontakt</SectionEyebrow>
               <h2 className="mt-6 text-3xl font-semibold tracking-tight md:text-5xl">
-                Lassen Sie uns über Ihr Vorhaben sprechen
+                Sprechen wir über Ihr Problem — nicht über Technik.
               </h2>
               <p className="mt-6 text-base leading-8 text-white/64">
-                Für Pilotprojekte, Rückfragen oder eine erste Einordnung erreichen Sie uns
-                direkt per E-Mail oder über das Kontaktformular.
+                Kurzes Gespräch. Ehrliche Einschätzung. Kein Verkaufsgespräch.
               </p>
 
               <div className="mt-8 rounded-[24px] border border-white/10 bg-[#0f1218] p-5">
