@@ -111,19 +111,19 @@ const retailShowcase = [
     src: "/retail-kundenansicht.png",
     eyebrow: "Kundenansicht",
     title: "Produkt gefunden — der Kunde sieht sofort wo es steht.",
-    text: "Gang, Regal und Ebene auf einen Blick — klar, direkt, ohne Erklärung. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
+    text: "Gang, Regal und Ebene auf einen Blick — klar, direkt, ohne Erklärung.",
   },
   {
     src: "/retail-statistik.png",
     eyebrow: "Statistik",
     title: "Wie viele Kunden haben heute nicht gefunden, was sie gesucht haben?",
-    text: "Das Dashboard macht sichtbar, wie häufig gesucht wird und wie hoch die Treffer- oder Nulltrefferquote im Markt ist. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
+    text: "Das Dashboard macht sichtbar, wie häufig gesucht wird und wie hoch die Treffer- oder Nulltrefferquote im Markt ist.",
   },
   {
     src: "/retail-analyse.png",
     eyebrow: "Analyse",
     title: "Nicht was verkauft wurde — sondern was gesucht und nicht gefunden wurde.",
-    text: "Treffer und Nulltreffer lassen sich über Zeiträume vergleichen — für bessere Entscheidungen im Sortiment. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
+    text: "Treffer und Nulltreffer lassen sich über Zeiträume vergleichen — für bessere Entscheidungen im Sortiment.",
   },
   {
     src: "/retail-produkte.png",
@@ -138,7 +138,7 @@ const knowledgeShowcase = [
     src: "/knowledge-barcode.png",
     eyebrow: "Fehlerbeschreibung",
     title: "Problem beschreiben — Lösung sofort. Kein Anruf beim Kollegen.",
-    text: "Ein Fehlerbild wie „Barcode nicht lesbar“ wird direkt mit Ursache und Maßnahme beantwortet — verständlich und umsetzbar. Dies ist ein Ausschnitt. Das vollständige System zeigen wir Ihnen gerne persönlich.",
+    text: "Ein Fehlerbild wie „Barcode nicht lesbar“ wird direkt mit Ursache und Maßnahme beantwortet — verständlich und umsetzbar.",
   },
   {
     src: "/knowledge-prozess.png",
