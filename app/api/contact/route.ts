@@ -1,10 +1,23 @@
 import { NextResponse } from "next/server";
 
+function escapeHtml(str: string): string {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
 
-    const { name, company, email, area, message } = body;
+    const name    = escapeHtml(String(body.name    ?? ""));
+    const company = escapeHtml(String(body.company ?? ""));
+    const email   = escapeHtml(String(body.email   ?? ""));
+    const area    = escapeHtml(String(body.area    ?? ""));
+    const message = escapeHtml(String(body.message ?? ""));
 
     if (!email || !message) {
       return NextResponse.json(
