@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+import IntroAnimation from "./components/IntroAnimation";
 import {
   ArrowRight,
   Mail,
@@ -176,6 +177,7 @@ function BrandMark() {
       />
       <motion.div
         className="relative z-10 flex h-10 w-10 items-center justify-center text-[18px] font-extrabold text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.35)]"
+        style={{ fontFamily: "Arial, Helvetica, sans-serif" }}
         animate={{ y: [-2, 3, -2] }}
         transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
       >
@@ -338,6 +340,7 @@ export default function VevogaSystemsLandingPage() {
       className="min-h-screen overflow-x-hidden bg-[#06070b] text-white antialiased"
       onMouseMove={(e) => setCursor({ x: e.clientX, y: e.clientY })}
     >
+      <IntroAnimation />
       <div className="pointer-events-none fixed inset-0 -z-20 bg-[linear-gradient(180deg,#0a0c11_0%,#06070b_45%,#07090d_100%)]" />
       <motion.div
         className="pointer-events-none fixed -z-10 h-80 w-80 rounded-full bg-white/10 blur-[120px]"
