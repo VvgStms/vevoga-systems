@@ -21,7 +21,7 @@
   .lgb{position:absolute;inset:-4px;border-radius:18px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 75%);filter:blur(10px);animation:glowPulse 3s ease-in-out infinite .5s;}
   @keyframes glowPulse{0%,100%{opacity:.6;transform:scale(.95);}50%{opacity:1;transform:scale(1.15);}}
   .lgf{position:absolute;inset:0;border-radius:14px;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 55%,#34d399 100%);box-shadow:0 0 30px rgba(99,102,241,.45);}
-  .lgv{position:relative;z-index:1;font-size:18px;font-weight:800;color:white;text-shadow:0 0 10px rgba(255,255,255,.35);}
+  .lgv{position:absolute;z-index:1;inset:0;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:white;text-shadow:0 0 10px rgba(255,255,255,.35);line-height:1;}
 
   /* ── SECTION BASE ────────────────────────────── */
   .sect{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:73px 48px 40px;opacity:0;pointer-events:none;transition:opacity var(--t) var(--ease),transform var(--t) var(--ease),filter var(--t) var(--ease);will-change:opacity,transform,filter;z-index:1;}
@@ -521,6 +521,73 @@
     transition:color .2s;
   }
   .cf-back:hover{color:rgba(255,255,255,.55);}
+
+  /* ══ MOBILE ═══════════════════════════════════════════════ */
+  @media(max-width:640px){
+
+    /* Header */
+    .hi{padding:12px 16px;}
+
+    /* All sections */
+    .sect{padding:64px 16px 24px;}
+
+    /* S0 – Hero */
+    .qmark{font-size:72px;top:-18px;left:-6px;}
+    .scroll-hint{bottom:20px;}
+
+    /* S1 – Produkte */
+    #s1{gap:20px;}
+    .prod-cards{flex-direction:column;gap:12px;}
+    .prod-card{padding:22px 18px;}
+    .pc-name{font-size:16px;}
+    .pc-desc{font-size:12px;}
+    .pc-arrow{margin-top:14px;}
+
+    /* S2 – Demo */
+    #s2{padding:64px 10px 12px;}
+    .demo-controls{
+      flex-wrap:wrap;gap:8px;margin-bottom:8px;
+    }
+    .demo-back-btn{font-size:10px;}
+    .demo-switch{padding:5px 12px;font-size:11px;}
+    .demo-chrome{
+      transform:none;
+      border-radius:10px;
+    }
+    .demo-screen img{
+      max-height:calc(100vh - 190px);
+    }
+    .tour-tooltip{
+      width:210px;
+      padding:12px 13px 10px;
+    }
+    .tt-title{font-size:13px;}
+    .tt-desc{font-size:11px;margin-bottom:10px;}
+    .tt-btn{padding:7px 10px;font-size:10px;}
+
+    /* S3 – Vorteile */
+    #s3{padding:80px 18px 56px;}
+    .adv-wrap{max-width:100%;}
+    .adv-grid{grid-template-columns:1fr;}
+    .adv-heading{margin-bottom:28px;}
+    .adv-text{font-size:13px;}
+    .adv-actions{
+      flex-direction:column;align-items:stretch;gap:10px;
+    }
+    .adv-btn-primary,.adv-btn-ghost{
+      text-align:center;justify-content:center;width:100%;
+    }
+
+    /* S4 – Kontakt */
+    #s4{padding:64px 16px 24px;}
+    .cf-card{padding:24px 18px;}
+    .cf-row{grid-template-columns:1fr;}
+    .cf-footer{
+      flex-direction:column;align-items:stretch;gap:12px;
+    }
+    .cf-submit{justify-content:center;width:100%;}
+    .cf-legal{max-width:100%;}
+  }
 </style>
 </head>
 <body>
