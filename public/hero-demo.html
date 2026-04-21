@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Vevoga – Hero Demo</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  :root{ --ease:cubic-bezier(0.22,1,0.36,1); --t:0.72s; }
+
+  html,body{height:100%;overflow:hidden;background:#06070b;color:white;font-family:Arial,Helvetica,sans-serif;}
+  body::before{content:'';position:fixed;inset:0;background:linear-gradient(to right,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:72px 72px;opacity:.05;pointer-events:none;z-index:0;}
+
+  /* ── HEADER ──────────────────────────────────── */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;border-bottom:1px solid rgba(255,255,255,.07);background:rgba(6,7,11,.75);backdrop-filter:blur(24px);}
+  .hi{max-width:1200px;margin:0 auto;padding:16px 48px;display:flex;align-items:center;justify-content:space-between;}
+  .logo{display:flex;align-items:center;gap:12px;font-size:12px;font-weight:600;letter-spacing:.28em;}
+  .lm{position:relative;width:40px;height:40px;display:flex;align-items:center;justify-content:center;}
+  .lga{position:absolute;inset:-10px;border-radius:22px;background:radial-gradient(circle,rgba(99,102,241,.55),transparent 70%);filter:blur(14px);opacity:.8;}
+  .lgb{position:absolute;inset:-4px;border-radius:18px;background:radial-gradient(circle,rgba(139,92,246,.5),transparent 75%);filter:blur(10px);opacity:.8;}
+  .lgf{position:absolute;inset:0;border-radius:14px;background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 55%,#34d399 100%);box-shadow:0 0 30px rgba(99,102,241,.45);}
+  .lgv{position:relative;z-index:1;font-size:18px;font-weight:800;color:white;text-shadow:0 0 10px rgba(255,255,255,.35);}
+  nav{display:flex;gap:32px;font-size:13px;color:rgba(255,255,255,.5);}
+  nav a{color:inherit;text-decoration:none;transition:color .2s;}
+  nav a:hover{color:white;}
+
+  /* ── SECTION BASE ────────────────────────────── */
+  .sect{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:73px 48px 40px;opacity:0;pointer-events:none;transition:opacity var(--t) var(--ease),transform var(--t) var(--ease),filter var(--t) var(--ease);will-change:opacity,transform,filter;z-index:1;}
+  .sect.active{opacity:1;pointer-events:all;transform:none;filter:none;}
+  .sect.leave-fwd{opacity:0;transform:scale(.94) translateY(-24px);filter:blur(8px);pointer-events:none;}
+  .sect.leave-bwd{opacity:0;transform:scale(.94) translateY(24px);filter:blur(8px);pointer-events:none;}
+  .sect.enter-fwd{opacity:0;transform:scale(1.04) translateY(24px);filter:blur(8px);}
+  .sect.enter-bwd{opacity:0;transform:scale(1.04) translateY(-24px);filter:blur(8px);}
+
+  /* ══ S0 – HERO ═══════════════════════════════════ */
+  #s0{z-index:3;text-align:center;}
+  .orb{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:rgba(255,255,255,.065);filter:blur(140px);pointer-events:none;animation:orbPulse 7s ease-in-out infinite;}
+  @keyframes orbPulse{0%,100%{opacity:.5;transform:translate(-50%,-50%) scale(.95);}50%{opacity:.85;transform:translate(-50%,-50%) scale(1.05);}}
+  .qwrap{position:relative;display:inline-block;max-width:820px;margin:0 auto;}
+  .qmark{position:absolute;top:-32px;left:-16px;font-size:110px;line-height:1;font-family:Georgia,serif;color:rgba(99,102,241,.16);pointer-events:none;user-select:none;}
+  h1{font-size:clamp(28px,4.2vw,52px);font-weight:700;font-style:italic;line-height:1.1;letter-spacing:-.025em;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.58) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  h1 em{font-style:italic;background:linear-gradient(135deg,#a5b4fc,#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .qsource{margin-top:14px;font-size:11px;letter-spacing:.18em;color:rgba(255,255,255,.2);text-transform:uppercase;}
+  .scroll-hint{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.2);cursor:pointer;animation:hintBob 2.2s ease-in-out infinite;transition:color .2s;}
+  .scroll-hint:hover{color:rgba(255,255,255,.5);}
+  @keyframes hintBob{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(5px);}}
+  .hint-line{width:1px;height:28px;background:linear-gradient(to bottom,transparent,rgba(255,255,255,.3));animation:hintFade 2.2s ease-in-out infinite;}
+  @keyframes hintFade{0%,100%{opacity:.3;}50%{opacity:.8;}}
+
+  /* ══ S1 – PRODUKTE ENTDECKEN ══════════════════════ */
+  #s1{z-index:2;text-align:center;gap:44px;}
+  .disc-lbl{font-size:10px;font-weight:500;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.28);margin-bottom:6px;}
+  .disc-title{font-size:clamp(22px,3vw,36px);font-weight:700;letter-spacing:-.02em;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.55) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .prod-cards{display:flex;gap:20px;max-width:860px;width:100%;}
+  .prod-card{flex:1;border-radius:26px;padding:36px;border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.025);cursor:pointer;text-align:left;transition:all .35s var(--ease);position:relative;overflow:hidden;}
+  .prod-card::before{content:'';position:absolute;inset:0;border-radius:26px;background:radial-gradient(circle at 30% 30%,rgba(99,102,241,.12),transparent 65%);opacity:0;transition:opacity .35s;}
+  .prod-card:hover{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.05);transform:translateY(-4px) scale(1.01);box-shadow:0 24px 60px rgba(0,0,0,.4);}
+  .prod-card:hover::before{opacity:1;}
+  .prod-card:active{transform:scale(.98);}
+  .pc-icon{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:22px;box-shadow:0 8px 24px rgba(99,102,241,.35);}
+  .pc-name{font-size:18px;font-weight:700;margin-bottom:10px;color:white;letter-spacing:-.01em;}
+  .pc-desc{font-size:13px;color:rgba(255,255,255,.45);line-height:1.75;}
+  .pc-arrow{margin-top:28px;display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;letter-spacing:.08em;color:rgba(255,255,255,.3);transition:color .25s,gap .25s;}
+  .prod-card:hover .pc-arrow{color:rgba(255,255,255,.7);gap:12px;}
+
+  /* ══ S2 – INTERACTIVE DEMO (Arcade style) ════════════════════ */
+  #s2{
+    z-index:1;
+    padding:80px 48px 28px;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    overflow:hidden;
+    gap:0;
+  }
+
+  /* Controls bar above browser mockup */
+  .demo-controls{
+    width:100%;max-width:960px;
+    display:flex;align-items:center;justify-content:space-between;
+    margin-bottom:14px;
+    flex-shrink:0;
+  }
+
+  .demo-back-btn{
+    display:flex;align-items:center;gap:7px;
+    font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+    color:rgba(255,255,255,.3);cursor:pointer;border:none;background:none;
+    transition:color .2s;padding:0;
+  }
+  .demo-back-btn:hover{color:rgba(255,255,255,.65);}
+
+  .demo-switcher{
+    display:inline-flex;border-radius:12px;
+    border:1px solid rgba(255,255,255,.08);
+    background:rgba(255,255,255,.03);
+    padding:3px;
+  }
+  .demo-switch{
+    padding:7px 20px;border-radius:9px;
+    font-size:12px;font-weight:500;
+    color:rgba(255,255,255,.38);cursor:pointer;
+    transition:all .22s;border:1px solid transparent;background:none;
+  }
+  .demo-switch.active{
+    background:rgba(255,255,255,.08);
+    color:white;
+    border-color:rgba(255,255,255,.1);
+  }
+
+  /* Browser chrome */
+  .demo-chrome{
+    width:100%;max-width:960px;
+    border-radius:16px;overflow:hidden;
+    border:1px solid rgba(255,255,255,.1);
+    background:#0f1117;
+    box-shadow:0 32px 80px rgba(0,0,0,.75),0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.04),inset 0 1px 0 rgba(255,255,255,.06);
+    flex-shrink:0;
+    transform:perspective(1400px) rotateX(1.5deg) rotateY(-0.5deg);
+  }
+
+  .demo-bbar{
+    background:#171b23;padding:9px 14px;
+    display:flex;align-items:center;gap:9px;
+    border-bottom:1px solid rgba(255,255,255,.06);
+  }
+  .demo-dots{display:flex;gap:5px;}
+  .demo-dot{width:9px;height:9px;border-radius:50%;}
+  .demo-dot:nth-child(1){background:#ff5f57;}
+  .demo-dot:nth-child(2){background:#febc2e;}
+  .demo-dot:nth-child(3){background:#28c840;}
+  .demo-url{
+    flex:1;background:rgba(255,255,255,.06);border-radius:5px;
+    padding:4px 12px;font-size:10px;color:rgba(255,255,255,.25);
+    text-align:center;letter-spacing:.02em;
+  }
+
+  /* Screenshot container */
+  .demo-screen{
+    position:relative;
+    overflow:hidden;
+    background:#0a0b0f;
+    line-height:0; /* no gap under image */
+  }
+  .demo-screen img{
+    width:100%;
+    display:block;
+    max-height:calc(100vh - 230px);
+    object-fit:cover;
+    object-position:top center;
+    transition:opacity .28s ease;
+  }
+
+  /* ── Hotspot layer ── */
+  .hs-layer{
+    position:absolute;inset:0;
+    pointer-events:none;
+  }
+  .hs{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    pointer-events:all;
+    z-index:10;
+    cursor:pointer;
+  }
+  /* Pulse rings */
+  .hs-ring,.hs-ring2{
+    width:34px;height:34px;border-radius:50%;
+    position:absolute;top:-17px;left:-17px;
+    animation:hsPulse 2.2s ease-out infinite;
+  }
+  .hs-ring{border:1.5px solid rgba(99,102,241,.75);}
+  .hs-ring2{border:1.5px solid rgba(99,102,241,.35);animation-delay:.55s;}
+  /* Centre dot */
+  .hs-dot{
+    width:11px;height:11px;border-radius:50%;
+    background:#6366f1;
+    box-shadow:0 0 0 2.5px rgba(99,102,241,.3),0 0 14px rgba(99,102,241,.7);
+    position:absolute;top:-5.5px;left:-5.5px;
+    transition:transform .2s,background .2s,box-shadow .2s;
+  }
+  .hs:hover .hs-dot{transform:scale(1.4);}
+  /* Active state */
+  .hs.active .hs-dot{
+    background:#a5b4fc;transform:scale(1.25);
+    box-shadow:0 0 0 3px rgba(165,180,252,.35),0 0 22px rgba(165,180,252,.85);
+  }
+  .hs.active .hs-ring{border-color:rgba(165,180,252,.8);animation-duration:1.8s;}
+  .hs.active .hs-ring2{border-color:rgba(165,180,252,.4);animation-duration:1.8s;}
+  /* In tour mode: hide non-active dots */
+  .hs-layer.tour-active .hs:not(.active){
+    opacity:0;pointer-events:none;transition:opacity .3s;
+  }
+  @keyframes hsPulse{
+    0%{transform:scale(1);opacity:.75;}
+    100%{transform:scale(2.4);opacity:0;}
+  }
+
+  /* ── Tour start overlay ── */
+  .tour-overlay{
+    position:absolute;inset:0;z-index:20;
+    background:rgba(6,7,11,.58);
+    backdrop-filter:blur(3px);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    gap:20px;
+    transition:opacity .5s var(--ease);
+  }
+  .tour-overlay.hidden{opacity:0;pointer-events:none;}
+
+  .tour-prod-name{
+    font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(255,255,255,.35);
+  }
+  .tour-start-btn{
+    display:flex;align-items:center;gap:10px;
+    padding:13px 34px;border-radius:50px;
+    background:linear-gradient(135deg,#6366f1 0%,#8b5cf6 100%);
+    color:white;font-size:14px;font-weight:700;
+    border:none;cursor:pointer;letter-spacing:.04em;
+    box-shadow:0 8px 32px rgba(99,102,241,.55),inset 0 0 0 1px rgba(255,255,255,.15);
+    transition:transform .2s var(--ease),box-shadow .2s;
+  }
+  .tour-start-btn:hover{
+    transform:scale(1.04);
+    box-shadow:0 14px 44px rgba(99,102,241,.7),inset 0 0 0 1px rgba(255,255,255,.22);
+  }
+
+  /* ── Tour tooltip ── */
+  .tour-tooltip{
+    position:absolute;z-index:25;
+    width:268px;
+    background:linear-gradient(145deg,rgba(18,25,60,.97) 0%,rgba(12,18,48,.97) 100%);
+    border:1px solid rgba(99,102,241,.4);
+    border-radius:14px;
+    padding:16px 18px 14px;
+    box-shadow:0 16px 48px rgba(0,0,0,.65),0 0 0 1px rgba(99,102,241,.12) inset;
+    pointer-events:all;
+    transition:opacity .28s,transform .32s var(--ease);
+  }
+  .tour-tooltip.hidden{opacity:0;pointer-events:none;}
+  .tour-tooltip.pop-in{animation:tooltipPop .35s var(--ease) both;}
+  @keyframes tooltipPop{
+    from{opacity:0;transform:scale(.94) translateY(6px);}
+    to{opacity:1;transform:scale(1) translateY(0);}
+  }
+
+  /* Tooltip tail element */
+  .tt-tail{
+    position:absolute;
+    pointer-events:none;
+    width:0;height:0;
+  }
+  .tt-tail.tail-down{
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    border-top:8px solid rgba(18,25,60,.97);
+  }
+  .tt-tail.tail-up{
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    border-bottom:8px solid rgba(18,25,60,.97);
+  }
+  /* border ring on tail */
+  .tt-tail.tail-down::before{
+    content:'';position:absolute;
+    top:-10px;left:-9px;
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-top:9px solid rgba(99,102,241,.35);
+  }
+  .tt-tail.tail-up::before{
+    content:'';position:absolute;
+    bottom:-10px;left:-9px;
+    width:0;height:0;
+    border-left:9px solid transparent;
+    border-right:9px solid transparent;
+    border-bottom:9px solid rgba(99,102,241,.35);
+  }
+  /* right-pointing tail (for anchor:'left' tooltips) */
+  .tt-tail.tail-right{
+    border-top:8px solid transparent;
+    border-bottom:8px solid transparent;
+    border-left:8px solid rgba(18,25,60,.97);
+  }
+  .tt-tail.tail-right::before{
+    content:'';position:absolute;
+    top:-9px;left:-10px;
+    width:0;height:0;
+    border-top:9px solid transparent;
+    border-bottom:9px solid transparent;
+    border-left:9px solid rgba(99,102,241,.35);
+  }
+
+  .tt-counter{
+    font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(99,102,241,.8);margin-bottom:8px;
+  }
+  .tt-title{
+    font-size:15px;font-weight:700;letter-spacing:-.015em;
+    color:white;margin-bottom:8px;line-height:1.2;
+  }
+  .tt-desc{
+    font-size:13px;color:rgba(255,255,255,.82);
+    line-height:1.65;margin-bottom:14px;
+  }
+
+  /* Progress dots inside tooltip */
+  .tt-progress{display:flex;gap:5px;align-items:center;margin-bottom:12px;}
+  .tp-dot{
+    height:3px;border-radius:2px;
+    background:rgba(255,255,255,.15);
+    transition:width .3s var(--ease),background .3s;
+  }
+  .tp-dot.active{background:rgba(99,102,241,.9);}
+
+  /* Nav inside tooltip */
+  .tt-nav{display:flex;gap:8px;}
+  .tt-btn{
+    padding:8px 14px;border-radius:9px;
+    font-size:11px;font-weight:600;
+    border:1px solid rgba(255,255,255,.1);
+    background:rgba(255,255,255,.05);
+    color:rgba(255,255,255,.5);
+    cursor:pointer;display:flex;align-items:center;gap:5px;
+    transition:all .18s;
+  }
+  .tt-btn:hover{background:rgba(255,255,255,.1);color:white;border-color:rgba(255,255,255,.2);}
+  .tt-btn.primary{
+    flex:1;justify-content:center;
+    background:rgba(99,102,241,.18);
+    border-color:rgba(99,102,241,.38);
+    color:rgba(255,255,255,.9);
+  }
+  .tt-btn.primary:hover{
+    background:rgba(99,102,241,.32);
+    border-color:rgba(99,102,241,.6);
+    color:white;
+  }
+
+  /* ══ S3 – VORTEILE ══════════════════════════════════════ */
+  #s3{
+    z-index:0;
+    overflow-y:auto;
+    justify-content:flex-start;
+    align-items:center;
+    padding:100px 48px 72px;
+    scrollbar-width:thin;
+    scrollbar-color:rgba(99,102,241,.25) transparent;
+  }
+  #s3::-webkit-scrollbar{width:4px;}
+  #s3::-webkit-scrollbar-thumb{background:rgba(99,102,241,.25);border-radius:4px;}
+
+  /* Global chip (product label at top) */
+  .adv-chip{
+    display:inline-flex;align-items:center;
+    padding:5px 16px;border-radius:100px;
+    background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.22);
+    font-size:10px;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
+    color:rgba(165,180,252,.75);margin-bottom:22px;
+  }
+  .adv-heading{
+    font-size:clamp(24px,3.2vw,40px);font-weight:700;letter-spacing:-.025em;line-height:1.1;
+    background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.52) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    margin-bottom:48px;
+  }
+
+  /* Section badge (Für Ihre Kunden / Für Ihre Filiale) */
+  .adv-sec-badge{
+    display:inline-flex;padding:4px 14px;border-radius:100px;
+    background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);
+    font-size:10px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;
+    color:rgba(255,255,255,.38);margin-bottom:10px;
+  }
+  .adv-sec-subtitle{
+    font-size:clamp(16px,1.8vw,20px);font-weight:600;letter-spacing:-.015em;
+    color:rgba(255,255,255,.82);margin-bottom:22px;
+  }
+
+  /* List */
+  .adv-list{list-style:none;display:flex;flex-direction:column;gap:14px;}
+
+  /* Animated item — used for rows, section headers, footers */
+  .adv-item{
+    display:flex;align-items:baseline;gap:14px;
+    opacity:0;transform:translateY(12px);
+    transition:opacity .5s var(--ease),transform .5s var(--ease);
+  }
+  .adv-item.visible{opacity:1;transform:translateY(0);}
+  .adv-dash{
+    flex-shrink:0;width:20px;height:2px;border-radius:2px;margin-top:10px;
+    background:linear-gradient(90deg,#6366f1,#8b5cf6);
+  }
+  .adv-text{font-size:13.5px;color:rgba(255,255,255,.65);line-height:1.65;letter-spacing:-.005em;}
+  .adv-text strong{color:rgba(255,255,255,.9);font-weight:600;}
+
+  /* Separator between sections */
+  .adv-sep{
+    height:1px;margin:32px 0;
+    background:linear-gradient(90deg,rgba(99,102,241,.35),rgba(99,102,241,.08),transparent);
+    opacity:0;transition:opacity .6s var(--ease);
+  }
+  .adv-sep.visible{opacity:1;}
+
+  /* Footer quote */
+  .adv-footer-quote{
+    font-size:13px;font-style:italic;color:rgba(255,255,255,.35);
+    padding-top:14px;border-top:1px solid rgba(255,255,255,.07);
+    margin-top:6px;line-height:1.6;
+    opacity:0;transform:translateY(10px);
+    transition:opacity .5s var(--ease),transform .5s var(--ease);
+  }
+  .adv-footer-quote.visible{opacity:1;transform:translateY(0);}
+
+  /* Two-column grid for Filiale */
+  .adv-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;}
+  .adv-col{display:flex;flex-direction:column;gap:16px;}
+  .adv-col-heading{
+    font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:rgba(255,255,255,.32);padding-bottom:12px;
+    border-bottom:1px solid rgba(255,255,255,.07);
+    opacity:0;transform:translateY(10px);
+    transition:opacity .45s var(--ease),transform .45s var(--ease);
+  }
+  .adv-col-heading.visible{opacity:1;transform:translateY(0);}
+
+  /* Wrap for the entire S3 content */
+  .adv-wrap{max-width:920px;width:100%;text-align:left;}
+
+  /* Bottom actions */
+  .adv-actions{
+    display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+    margin-top:44px;padding-top:32px;border-top:1px solid rgba(255,255,255,.06);
+  }
+  .adv-btn-primary{
+    padding:12px 26px;border-radius:12px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    border:none;color:white;font-size:13px;font-weight:600;letter-spacing:.02em;
+    cursor:pointer;transition:opacity .2s,transform .2s;
+    box-shadow:0 8px 24px rgba(99,102,241,.35);
+  }
+  .adv-btn-primary:hover{opacity:.85;transform:translateY(-1px);}
+  .adv-btn-ghost{
+    padding:11px 20px;border-radius:12px;
+    background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
+    color:rgba(255,255,255,.38);font-size:13px;font-weight:500;
+    cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:7px;
+  }
+  .adv-btn-ghost:hover{background:rgba(255,255,255,.08);color:rgba(255,255,255,.65);}
+
+  /* ══ S4 – KONTAKT ════════════════════════════════════════ */
+  #s4{z-index:0;text-align:center;}
+  .cf-wrap{
+    width:100%;max-width:600px;text-align:left;
+  }
+  #cf-form{display:grid;gap:16px;}
+  .cf-card{
+    border-radius:24px;border:1px solid rgba(255,255,255,.09);
+    background:rgba(255,255,255,.03);
+    padding:40px 36px;
+    box-shadow:0 24px 64px rgba(0,0,0,.45);
+    position:relative;overflow:hidden;
+  }
+  .cf-card::before{
+    content:'';position:absolute;inset:0;border-radius:24px;
+    background:radial-gradient(circle at 40% 0%,rgba(99,102,241,.09),transparent 60%);
+    pointer-events:none;
+  }
+  .cf-eyebrow{
+    font-size:10px;font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+    color:rgba(165,180,252,.7);margin-bottom:28px;
+  }
+  .cf-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .cf-field{display:flex;flex-direction:column;gap:7px;}
+  .cf-field.full{grid-column:1/-1;}
+  .cf-label{font-size:11px;font-weight:500;letter-spacing:.06em;color:rgba(255,255,255,.38);}
+  .cf-input,.cf-select,.cf-textarea{
+    background:rgba(255,255,255,.04);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:12px;
+    padding:11px 15px;
+    color:white;font-size:13px;
+    outline:none;transition:border-color .2s,background .2s;
+    font-family:inherit;width:100%;
+  }
+  .cf-input::placeholder,.cf-textarea::placeholder{color:rgba(255,255,255,.2);}
+  .cf-input:focus,.cf-select:focus,.cf-textarea:focus{
+    border-color:rgba(99,102,241,.5);background:rgba(255,255,255,.06);
+  }
+  .cf-select{cursor:pointer;appearance:none;-webkit-appearance:none;}
+  .cf-textarea{resize:none;line-height:1.6;}
+  .cf-footer{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;margin-top:4px;flex-wrap:wrap;
+  }
+  .cf-legal{font-size:11px;color:rgba(255,255,255,.25);line-height:1.6;max-width:260px;}
+  .cf-submit{
+    padding:12px 26px;border-radius:12px;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    border:none;color:white;font-size:13px;font-weight:600;
+    cursor:pointer;transition:opacity .2s,transform .2s;
+    box-shadow:0 8px 24px rgba(99,102,241,.3);
+    display:flex;align-items:center;gap:8px;flex-shrink:0;
+  }
+  .cf-submit:hover{opacity:.85;transform:translateY(-1px);}
+  .cf-success{
+    text-align:center;padding:32px 0;
+    display:none;flex-direction:column;align-items:center;gap:12px;
+  }
+  .cf-success.show{display:flex;}
+  .cf-success-icon{
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.3);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .cf-success-msg{font-size:15px;font-weight:600;color:white;}
+  .cf-success-sub{font-size:13px;color:rgba(255,255,255,.42);}
+  .cf-back{
+    margin-top:28px;font-size:11px;color:rgba(255,255,255,.28);
+    cursor:pointer;letter-spacing:.06em;background:none;border:none;
+    transition:color .2s;
+  }
+  .cf-back:hover{color:rgba(255,255,255,.55);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hi">
+    <div class="logo">
+      <div class="lm"><div class="lga"></div><div class="lgb"></div><div class="lgf"></div><span class="lgv">V</span></div>
+      VEVOGA SYSTEMS
+    </div>
+    <nav><a href="#">Retail</a><a href="#">Knowledge</a><a href="#">Pilot</a><a href="#">Kontakt</a></nav>
+  </div>
+</header>
+
+<!-- ══ S0: HERO ══════════════════════════════════════════ -->
+<div class="sect active" id="s0">
+  <div class="orb"></div>
+  <div class="qwrap">
+    <div class="qmark">&ldquo;</div>
+    <h1>Einfachheit ist keine Vereinfachung.<br>Sie ist das Ergebnis <em>guter Arbeit.</em></h1>
+    <div class="qsource">Vevoga Systems</div>
+  </div>
+  <div class="scroll-hint" onclick="goTo(1)">
+    <span>Entdecken</span>
+    <div class="hint-line"></div>
+  </div>
+</div>
+
+<!-- ══ S1: PRODUKTE ENTDECKEN ═══════════════════════════ -->
+<div class="sect" id="s1">
+  <div style="text-align:center;margin-bottom:44px;">
+    <div class="disc-title">Unsere Produkte</div>
+  </div>
+  <div class="prod-cards">
+    <div class="prod-card" onclick="openProduct('retail')">
+      <div class="pc-icon"><svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+      <div class="pc-name">Retail System</div>
+      <div class="pc-desc">Die Revolution für den Einzelhandel.</div>
+      <div class="pc-arrow">Demo starten <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div>
+    </div>
+    <div class="prod-card" onclick="openProduct('knowledge')">
+      <div class="pc-icon" style="background:linear-gradient(135deg,#8b5cf6,#34d399);"><svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+      <div class="pc-name">Knowledge System</div>
+      <div class="pc-desc">Ihr Virtueller Kollege, der immer bleibt.</div>
+      <div class="pc-arrow">Demo starten <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S2: INTERACTIVE DEMO ══════════════════════════════ -->
+<div class="sect" id="s2">
+
+  <div class="demo-controls">
+    <!-- Back -->
+    <button class="demo-back-btn" onclick="goBack()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+      Zurück
+    </button>
+    <!-- Product switcher -->
+    <div class="demo-switcher">
+      <button class="demo-switch active" id="dsw-retail"    onclick="openProduct('retail')">Retail</button>
+      <button class="demo-switch"        id="dsw-knowledge" onclick="openProduct('knowledge')">Knowledge</button>
+    </div>
+  </div>
+
+  <!-- Browser chrome -->
+  <div class="demo-chrome">
+    <div class="demo-bbar">
+      <div class="demo-dots">
+        <div class="demo-dot"></div>
+        <div class="demo-dot"></div>
+        <div class="demo-dot"></div>
+      </div>
+      <div class="demo-url" id="demo-url">vevoga-systems.de / retail</div>
+    </div>
+
+    <!-- Screenshot -->
+    <div class="demo-screen" id="demo-screen">
+      <img id="demo-img" src="/Sprache auswählen.png" alt=""/>
+
+      <!-- Hotspot dots -->
+      <div class="hs-layer" id="hs-layer"></div>
+
+      <!-- Pre-tour overlay -->
+      <div class="tour-overlay" id="tour-overlay">
+        <div class="tour-prod-name" id="tour-prod-name">Retail System</div>
+        <button class="tour-start-btn" onclick="startTour()">
+          <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+          Tour starten
+        </button>
+      </div>
+
+      <!-- Floating tooltip (positioned by JS) -->
+      <div class="tour-tooltip hidden" id="tour-tooltip">
+        <div class="tt-tail" id="tt-tail"></div>
+        <div class="tt-counter" id="tt-counter">01 / 04</div>
+        <div class="tt-title"   id="tt-title">Titel</div>
+        <div class="tt-desc"    id="tt-desc">Beschreibung</div>
+        <div class="tt-progress" id="tt-progress"></div>
+        <div class="tt-nav">
+          <button class="tt-btn" id="tt-prev" onclick="stepTour(-1)">
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg>
+            Zurück
+          </button>
+          <button class="tt-btn primary" id="tt-next" onclick="stepTour(1)">
+            Weiter
+            <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div><!-- /demo-screen -->
+  </div><!-- /demo-chrome -->
+
+</div><!-- /s2 -->
+
+<!-- ══ S3: VORTEILE ══════════════════════════════════════ -->
+<div class="sect" id="s3">
+  <div class="adv-wrap">
+    <div class="adv-chip" id="adv-chip">Retail System</div>
+    <h2 class="adv-heading">Die Vorteile im Überblick</h2>
+    <div id="adv-body"></div>
+    <div class="adv-actions">
+      <button class="adv-btn-primary" onclick="goTo(4)">Kontakt aufnehmen</button>
+      <button class="adv-btn-ghost" onclick="goTo(2);rebuildDemo();">
+        <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 .49-4.5"/></svg>
+        Demo wiederholen
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ S4: KONTAKT ════════════════════════════════════════ -->
+<div class="sect" id="s4">
+  <div class="cf-wrap">
+    <div class="cf-card">
+      <div class="cf-eyebrow">Kontakt</div>
+      <form id="cf-form" onsubmit="cfSubmit(event)">
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label">Name</label>
+            <input class="cf-input" placeholder="Ihr Name" />
+          </div>
+          <div class="cf-field">
+            <label class="cf-label">Unternehmen</label>
+            <input class="cf-input" placeholder="Ihr Unternehmen" />
+          </div>
+        </div>
+        <div class="cf-row">
+          <div class="cf-field">
+            <label class="cf-label">E-Mail</label>
+            <input class="cf-input" type="email" required placeholder="name@unternehmen.de" />
+          </div>
+          <div class="cf-field">
+            <label class="cf-label">Bereich</label>
+            <select class="cf-select cf-input">
+              <option>Retail System</option>
+              <option>Knowledge System</option>
+              <option>Allgemeine Anfrage</option>
+            </select>
+          </div>
+        </div>
+        <div class="cf-field full">
+          <label class="cf-label">Nachricht</label>
+          <textarea class="cf-textarea" rows="5" placeholder="Beschreiben Sie kurz Ihr Vorhaben."></textarea>
+        </div>
+        <div class="cf-footer">
+          <p class="cf-legal">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Anfrage zu.</p>
+          <button type="submit" class="cf-submit">
+            Anfrage senden
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>
+          </button>
+        </div>
+      </form>
+      <div class="cf-success" id="cf-success">
+        <div class="cf-success-icon">
+          <svg width="20" height="20" fill="none" stroke="rgba(52,211,153,.9)" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20,6 9,17 4,12"/></svg>
+        </div>
+        <div class="cf-success-msg">Anfrage gesendet.</div>
+        <div class="cf-success-sub">Wir melden uns so schnell wie möglich.</div>
+      </div>
+    </div>
+    <button class="cf-back" onclick="goTo(3)">← Zurück zu den Vorteilen</button>
+  </div>
+</div><!-- /s4 -->
+
+<script>
+// ── Demo data ──────────────────────────────────────────────
+// hx/hy = hotspot position in % over the image
+const DEMOS = {
+  retail: {
+    url:   'vevoga-systems.de / retail',
+    img:   '/Sprache auswählen.png',
+    label: 'Retail System',
+    advantages: {
+      sections: [
+        {
+          badge: 'Für Ihre Kunden',
+          subtitle: 'Einfach. Schnell. Ohne Hürden.',
+          items: [
+            'Einfacher denn je – QR-Code scannen und loslegen. Keine App, keine Registrierung nötig.',
+            'Zeitersparnis in jeder Filiale – ganz egal ob in der heimischen oder in einer fremden Filiale.',
+            'Mit 23 Sprachen gehören Sprachbarrieren der Vergangenheit an.',
+          ],
+          footer: 'Ein Kunde, der findet was er sucht, kauft. Und kommt wieder.',
+        },
+        {
+          badge: 'Für Ihre Filiale',
+          cols: [
+            {
+              heading: 'Statistik-Bereich – Ihr tägliches Command Center.',
+              items: [
+                'Tagesübersicht – Suchanfragen, Trefferquote, Nulltrefferquote. Sie wissen jederzeit, wie gut Ihr Markt performt – und wo Sie noch mehr herausholen können.',
+                'Balkendiagramm Suchzeiten – Wann ist Ihre Filiale wirklich gefragt? Planen Sie Personal und Aktionen genau dort, wo Ihre Kunden sind.',
+                'Top-Suchanfragen letzte 7 Tage – Was suchen Ihre Kunden gerade am meisten? Wer das weiß, verkauft mehr.',
+                'Häufige Suchen ohne Treffer – Jede Nulltreffer-Suche ist ein Kunde, der ohne Kauf geht. Wir zeigen Ihnen genau, welche Produkte fehlen – damit Sie gezielt nachsteuern und Umsatz zurückholen, der Ihnen bisher verloren ging.',
+              ],
+            },
+            {
+              heading: 'Analyse-Bereich – Tiefer. Weiter. Vorausschauend.',
+              items: [
+                'Trefferquote & Nulltrefferquote – 7 Tage, Monat, Jahr. Verfolgen Sie Ihre Entwicklung und sehen Sie, wie Optimierungen direkt auf Ihren Umsatz einzahlen.',
+                'Seitwärtstrend: Treffer vs. Nulltreffer – Ihre Sortimentsqualität auf einen Blick. Je mehr Treffer, desto zufriedenere Kunden – desto mehr Umsatz.',
+                'Suchbegriffe-Verlauf – Erkennen Sie aufkommende Trends, bevor Ihre Kunden das Produkt woanders kaufen.',
+                'Top Trending Diagramm – Diese Woche vs. letzte Woche. Reagieren Sie schneller als der Wettbewerb.',
+                'Wochenheatmap – Stoßzeiten sichtbar gemacht. Setzen Sie Ihr Personal und Ihre Aktionen genau dann ein, wenn Ihre Kunden bereit sind zu kaufen.',
+                'Suchverhalten pro Sitzung – Findet Ihr Kunde direkt, was er sucht? Jede Sekunde, die er sucht, ist eine Sekunde, in der er zweifelt. Wir helfen Ihnen, diese Momente zu eliminieren.',
+              ],
+            },
+          ],
+        },
+        {
+          badge: 'Produktpflege & Import',
+          items: [
+            'CSV- oder Excel-Import – Hunderte Produkte auf einmal einpflegen. Kein manueller Aufwand, kein Zeitverlust.',
+            'Einzelne Artikel direkt anlegen – Neues Produkt im Sortiment? In Sekunden hinzugefügt und sofort auffindbar.',
+            'Standorte, Kategorien & Synonyme – Alles zentral an einer Stelle bearbeiten. So bleibt die Suche präzise, egal wie sich Ihr Markt verändert.',
+            'Suchlogs exportieren – Alle Suchdaten tabellarisch als Datei exportieren und weiterverarbeiten – für Ihre eigene Analyse oder Ihr Reporting.',
+          ],
+        },
+      ],
+    },
+    spots: [
+      // Step 1 — DE-Dropdown (anchor left: Tooltip links vom Dropdown, Sprachen bleiben sichtbar)
+      { hx:85, hy:25, anchor:'left', img:'/Sprache auswählen.png',
+        title:'',
+        desc:'23 Sprachen verfügbar.' },
+      // Step 2 — Suchleiste (Tooltip oben-rechts, "Coca-Cola" bleibt sichtbar)
+      { hx:73, hy:57, img:'/Suchanfrage.png',
+        title:'',
+        desc:'Hier wird das gewünschte Produkt eingegeben.' },
+      // Step 3 — Ergebnis (Tooltip rechts neben Karte, Gang-7-Text bleibt sichtbar)
+      { hx:73, hy:47, img:'/Ergebnis.png',
+        title:'',
+        desc:'Gang, Regal, Ebene wird sofort angezeigt.' },
+    ]
+  },
+  knowledge: {
+    url:   'vevoga-systems.de / knowledge',
+    img:   '/Verbindungen und shortcuts.png',
+    label: 'Knowledge System',
+    advantages: {
+      sections: [
+        {
+          badge: 'Für den Mitarbeiter',
+          items: [
+            'Sofortige Antworten – kein Wälzen von 200-seitigen Handbüchern mehr.',
+            'Rund um die Uhr verfügbar – keine Zeit mehr verschwenden um nach wichtigen Infos zu suchen.',
+            'Fragen stellen, klare Antwort bekommen.',
+            'Schritt-für-Schritt-Anleitungen – genau dann wenn man sie am Arbeitsplatz braucht.',
+            'Videos und Zeichnungen erscheinen direkt dort wo sie relevant sind.',
+          ],
+        },
+        {
+          badge: 'Für das Unternehmen',
+          items: [
+            'Kein Wissensverlust mehr wenn erfahrene Mitarbeiter gehen.',
+            'Neue Mitarbeiter in Tagen eingearbeitet, nicht in Monaten.',
+            'Weniger Fehler, weniger Nacharbeit, geringerer Ausschuss.',
+            'Keine Support-Engpässe.',
+            'Skaliert auf jede Abteilung, jedes Produkt, jede Sprache.',
+            'Return on Investment ab dem ersten Tag.',
+          ],
+        },
+      ],
+    },
+    spots: [
+      // Step 1 — SYSTEM section
+      // Dot between "API-Verbindung" (y≈15.7%) and "Wissensbasis" (y≈19.1%) rows
+      // Sidebar center ≈ 8% of width
+      { hx:8, hy:17, img:'/Verbindungen und shortcuts.png',
+        title:'',
+        desc:'Verbindungsstatus und Anzahl der Dokumente werden hier angezeigt.' },
+
+      // Step 2 — SHORTCUTS section
+      // Dot at center of shortcuts list (Senden/Neue Zeile/Fokus/Löschen)
+      // SHORTCUTS header ≈ 80%, list center ≈ 86% height
+      { hx:8, hy:86, img:'/Verbindungen und shortcuts.png',
+        title:'',
+        desc:'Shortcuts werden hier angezeigt.' },
+
+      // Step 3 — PRODUKTFILTER dropdown (MSG-100 selected)
+      // Dropdown element at ≈ 30% height, sidebar center ≈ 8% width
+      { hx:8, hy:30, img:'/Produkt auswählen.png',
+        title:'',
+        desc:'Hier wählen Sie ihr gewünschtes Produkt oder Thema aus.' },
+
+      // Step 4 — Input field (question typed)
+      // Input field at ≈ 91% height, main area center ≈ 57% width
+      // Tooltip appears ABOVE → floats in the empty chat area above the input
+      { hx:57, hy:91, img:'/Frage stellen.png',
+        title:'',
+        desc:'Hier stellen Sie ihre Frage zum gewünschten Produkt.' },
+
+      // Step 5 — Response area
+      // Dot on the right side of response bubble ≈ 85% width, 45% height
+      // Tooltip appears BELOW in the right margin area
+      { hx:85, hy:45, img:'/Antwort in Sekunden.png',
+        title:'',
+        desc:'Erhalten Sie ihre Antwort in Sekunden.' },
+    ]
+  }
+};
+
+// ── State ────────────────────────────────────────────────
+let activeProd = 'retail';
+let tourActive = false;
+let tourStep   = 0;
+
+// ── Section navigation ────────────────────────────────────
+let curSect = 0, transitioning = false;
+const sects = [document.getElementById('s0'),document.getElementById('s1'),document.getElementById('s2'),document.getElementById('s3'),document.getElementById('s4')];
+
+function goTo(next) {
+  if (transitioning || next === curSect) return;
+  if (next < 0 || next >= sects.length) return;
+  transitioning = true;
+  const dir = next > curSect ? 'fwd' : 'bwd';
+  const prev = sects[curSect], inc = sects[next];
+  inc.classList.remove('active','leave-fwd','leave-bwd');
+  inc.classList.add(dir === 'fwd' ? 'enter-fwd' : 'enter-bwd');
+  requestAnimationFrame(() => {
+    prev.classList.remove('active');
+    prev.classList.add(dir === 'fwd' ? 'leave-fwd' : 'leave-bwd');
+    requestAnimationFrame(() => { inc.classList.remove('enter-fwd','enter-bwd'); inc.classList.add('active'); });
+    curSect = next;
+    setTimeout(() => {
+      prev.classList.remove('leave-fwd','leave-bwd');
+      transitioning = false;
+      if (next === 3) renderAdvantages();
+    }, 780);
+  });
+}
+
+function goBack() {
+  tourActive = false;
+  tourStep = 0;
+  goTo(1);
+}
+
+let wheelAcc = 0, wheelTimer = null;
+window.addEventListener('wheel', e => {
+  if (curSect === 2) return;
+  if (curSect === 3) return;
+  if (curSect === 4) return;
+  e.preventDefault();
+  wheelAcc += e.deltaY;
+  clearTimeout(wheelTimer);
+  wheelTimer = setTimeout(() => { wheelAcc = 0; }, 200);
+  if (Math.abs(wheelAcc) > 60) { goTo(wheelAcc > 0 ? curSect + 1 : curSect - 1); wheelAcc = 0; }
+}, { passive: false });
+
+// ── Open product ────────────────────────────────────────
+function openProduct(prod) {
+  activeProd = prod;
+  tourActive = false;
+  tourStep   = 0;
+  updateSwitcher();
+  rebuildDemo();
+  goTo(2);
+}
+
+function updateSwitcher() {
+  document.querySelectorAll('.demo-switch').forEach(b => b.classList.remove('active'));
+  document.getElementById('dsw-' + activeProd).classList.add('active');
+}
+
+// ── Rebuild (called on product change) ───────────────────
+function rebuildDemo() {
+  const demo = DEMOS[activeProd];
+  document.getElementById('demo-url').textContent    = demo.url;
+  document.getElementById('demo-img').src            = demo.img;
+  document.getElementById('tour-prod-name').textContent = demo.label;
+
+  // Rebuild hotspot elements
+  const layer = document.getElementById('hs-layer');
+  layer.innerHTML = '';
+  layer.classList.remove('tour-active');
+
+  demo.spots.forEach((sp, i) => {
+    const el       = document.createElement('div');
+    el.className   = 'hs';
+    el.style.left  = sp.hx + '%';
+    el.style.top   = sp.hy + '%';
+    el.innerHTML   = '<div class="hs-ring"></div><div class="hs-ring2"></div><div class="hs-dot"></div>';
+    el.addEventListener('click', () => { if (!tourActive) startTour(); });
+    layer.appendChild(el);
+  });
+
+  // Show pre-tour overlay, hide tooltip
+  document.getElementById('tour-overlay').classList.remove('hidden');
+  document.getElementById('tour-tooltip').classList.add('hidden');
+}
+
+// ── Tour logic ───────────────────────────────────────────
+function startTour() {
+  tourActive = true;
+  tourStep   = 0;
+  renderTour(true);
+}
+
+function stepTour(dir) {
+  const total  = DEMOS[activeProd].spots.length;
+  const isLast = tourStep === total - 1;
+  if (dir === 1 && isLast) { goTo(3); return; }
+  tourStep = (tourStep + dir + total) % total;
+  renderTour(true);
+}
+
+function renderTour(animate) {
+  const demo = DEMOS[activeProd];
+
+  if (!tourActive) {
+    const demo2 = DEMOS[activeProd];
+    const imgEl2 = document.getElementById('demo-img');
+    if (imgEl2.src !== new URL(demo2.img, window.location.href).href) {
+      imgEl2.style.opacity = '0';
+      setTimeout(() => { imgEl2.src = demo2.img; imgEl2.style.opacity = '1'; }, 260);
+    }
+    document.getElementById('tour-overlay').classList.remove('hidden');
+    document.getElementById('tour-tooltip').classList.add('hidden');
+    document.getElementById('hs-layer').classList.remove('tour-active');
+    document.querySelectorAll('.hs').forEach(h => h.classList.remove('active'));
+    return;
+  }
+
+  // Hide overlay, activate tour layer
+  document.getElementById('tour-overlay').classList.add('hidden');
+  document.getElementById('hs-layer').classList.add('tour-active');
+
+  // Update hotspot dot states
+  document.querySelectorAll('.hs').forEach((h, i) => {
+    h.classList.toggle('active', i === tourStep);
+  });
+
+  // Update tooltip content
+  const sp    = demo.spots[tourStep];
+  const total = demo.spots.length;
+
+  // Per-step image switch (crossfade)
+  const imgEl    = document.getElementById('demo-img');
+  const stepImg  = sp.img || demo.img;
+  const fullPath = new URL(stepImg, window.location.href).href;
+  if (imgEl.src !== fullPath) {
+    imgEl.style.opacity = '0';
+    setTimeout(() => { imgEl.src = stepImg; imgEl.style.opacity = '1'; }, 260);
+  }
+
+  document.getElementById('tt-counter').textContent = String(tourStep + 1).padStart(2,'0') + ' / ' + String(total).padStart(2,'0');
+
+  // Title: hide when empty
+  const titleEl = document.getElementById('tt-title');
+  if (sp.title) {
+    titleEl.textContent    = sp.title;
+    titleEl.style.display  = '';
+  } else {
+    titleEl.style.display  = 'none';
+  }
+
+  document.getElementById('tt-desc').textContent    = sp.desc;
+
+  // Progress dots
+  const prog = document.getElementById('tt-progress');
+  prog.innerHTML = '';
+  demo.spots.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className  = 'tp-dot' + (i === tourStep ? ' active' : '');
+    d.style.width = (i === tourStep ? '22px' : '10px');
+    prog.appendChild(d);
+  });
+
+  // Next button label
+  const nextBtn = document.getElementById('tt-next');
+  const isLast  = tourStep === total - 1;
+  if (isLast) {
+    nextBtn.innerHTML = 'Vorteile entdecken <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>';
+  } else {
+    nextBtn.innerHTML = 'Weiter <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>';
+  }
+
+  // Show tooltip and position it
+  const tooltip = document.getElementById('tour-tooltip');
+  tooltip.classList.remove('hidden');
+  if (animate) {
+    tooltip.classList.remove('pop-in');
+    void tooltip.offsetWidth; // reflow to retrigger animation
+    tooltip.classList.add('pop-in');
+  }
+
+  positionTooltip(sp);
+}
+
+// ── Tooltip positioning ──────────────────────────────────
+function positionTooltip(sp) {
+  const tooltip = document.getElementById('tour-tooltip');
+  const screen  = document.getElementById('demo-screen');
+  const tail    = document.getElementById('tt-tail');
+
+  // Use rAF to let browser finish painting (so offsetWidth is accurate)
+  requestAnimationFrame(() => {
+    const sw  = screen.offsetWidth;
+    const sh  = screen.offsetHeight;
+    const ttW = tooltip.offsetWidth  || 268;
+    const ttH = tooltip.offsetHeight || 160;
+    const gap = 20; // distance between dot and tooltip edge
+
+    const hsX = (sp.hx / 100) * sw; // hotspot X in px (relative to screen)
+    const hsY = (sp.hy / 100) * sh;
+
+    let top, left, tailDir;
+
+    if (sp.anchor === 'left') {
+      // Tooltip sits to the LEFT of the hotspot; tail points right
+      left = hsX - ttW - gap;
+      top  = hsY - ttH / 2;
+      top  = Math.max(8, Math.min(top,  sh - ttH - 8));
+      left = Math.max(8, Math.min(left, sw - ttW - 8));
+
+      const tailY        = hsY - top;
+      const tailClamped  = Math.max(16, Math.min(tailY, ttH - 16));
+
+      tooltip.style.left = left + 'px';
+      tooltip.style.top  = top  + 'px';
+      tail.className     = 'tt-tail tail-right';
+      tail.style.left    = '';
+      tail.style.right   = '-8px';
+      tail.style.top     = tailClamped + 'px';
+      tail.style.bottom  = '';
+      tail.style.transform = 'translateY(-50%)';
+      return;
+    }
+
+    // Vertical: if hotspot is in lower 52% → tooltip goes above it
+    if (hsY > sh * 0.52) {
+      top     = hsY - ttH - gap;
+      tailDir = 'tail-down';
+    } else {
+      top     = hsY + gap;
+      tailDir = 'tail-up';
+    }
+
+    // Clamp top within screen
+    top = Math.max(8, Math.min(top, sh - ttH - 8));
+
+    // Horizontal: center tooltip on hotspot, clamp to screen edges
+    left = hsX - ttW / 2;
+    left = Math.max(8, Math.min(left, sw - ttW - 8));
+
+    // Tail horizontal position: where on the tooltip the triangle appears
+    const tailX = hsX - left; // hotspot X relative to tooltip's left edge
+    const tailClamped = Math.max(18, Math.min(tailX, ttW - 18));
+
+    // Apply positions
+    tooltip.style.left = left + 'px';
+    tooltip.style.top  = top  + 'px';
+
+    // Position tail
+    tail.className  = 'tt-tail ' + tailDir;
+    tail.style.left = tailClamped + 'px';
+    tail.style.right = '';
+    tail.style.top  = '';
+    tail.style.bottom = '';
+    if (tailDir === 'tail-down') {
+      tail.style.bottom = '-8px';
+    } else {
+      tail.style.top = '-8px';
+    }
+    tail.style.transform = 'translateX(-50%)';
+  });
+}
+
+// ── Advantages ──────────────────────────────────────────
+function advItem(text) {
+  return '<li class="adv-item"><div class="adv-dash"></div><span class="adv-text">' + text + '</span></li>';
+}
+
+function renderAdvantages() {
+  const demo = DEMOS[activeProd];
+  document.getElementById('adv-chip').textContent = demo.label;
+  // Reset scroll position
+  document.getElementById('s3').scrollTop = 0;
+
+  const body = document.getElementById('adv-body');
+  body.innerHTML = '';
+
+  const adv = demo.advantages;
+
+  if (Array.isArray(adv)) {
+    // Simple format (Knowledge System)
+    const ul = document.createElement('ul');
+    ul.className = 'adv-list';
+    ul.innerHTML = adv.map(t => advItem(t)).join('');
+    body.appendChild(ul);
+  } else {
+    // Rich format (Retail System)
+    adv.sections.forEach((sec, si) => {
+      if (si > 0) {
+        const sep = document.createElement('div');
+        sep.className = 'adv-sep';
+        body.appendChild(sep);
+      }
+
+      // Section header block
+      const hd = document.createElement('div');
+      hd.innerHTML =
+        '<div class="adv-sec-badge adv-item">' + sec.badge + '</div>' +
+        (sec.subtitle ? '<div class="adv-sec-subtitle adv-item">' + sec.subtitle + '</div>' : '');
+      body.appendChild(hd);
+
+      if (sec.cols) {
+        // Two-column grid
+        const grid = document.createElement('div');
+        grid.className = 'adv-grid';
+        sec.cols.forEach(col => {
+          const colEl = document.createElement('div');
+          colEl.className = 'adv-col';
+          colEl.innerHTML =
+            '<div class="adv-col-heading">' + col.heading + '</div>' +
+            '<ul class="adv-list">' + col.items.map(t => advItem(t)).join('') + '</ul>';
+          grid.appendChild(colEl);
+        });
+        body.appendChild(grid);
+      } else if (sec.items) {
+        // Single-column list
+        const ul = document.createElement('ul');
+        ul.className = 'adv-list';
+        ul.style.marginBottom = '0';
+        ul.innerHTML = sec.items.map(t => advItem(t)).join('');
+        body.appendChild(ul);
+
+        if (sec.footer) {
+          const fq = document.createElement('p');
+          fq.className = 'adv-footer-quote';
+          fq.textContent = sec.footer;
+          body.appendChild(fq);
+        }
+      }
+    });
+  }
+
+  // Collect ALL animated elements in DOM order and stagger-reveal them
+  const allAnimated = Array.from(body.querySelectorAll(
+    '.adv-item, .adv-sep, .adv-col-heading, .adv-footer-quote'
+  ));
+  allAnimated.forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 200 + i * 55);
+  });
+}
+
+// ── Contact form ─────────────────────────────────────────
+function cfSubmit(e) {
+  e.preventDefault();
+  document.getElementById('cf-form').style.display = 'none';
+  document.getElementById('cf-success').classList.add('show');
+}
+
+// ── Init ────────────────────────────────────────────────
+rebuildDemo();
+</script>
+</body>
+</html>
