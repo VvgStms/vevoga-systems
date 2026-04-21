@@ -660,21 +660,21 @@
         <div class="cf-row">
           <div class="cf-field">
             <label class="cf-label">Name</label>
-            <input class="cf-input" placeholder="Ihr Name" />
+            <input name="name" class="cf-input" placeholder="Ihr Name" />
           </div>
           <div class="cf-field">
             <label class="cf-label">Unternehmen</label>
-            <input class="cf-input" placeholder="Ihr Unternehmen" />
+            <input name="company" class="cf-input" placeholder="Ihr Unternehmen" />
           </div>
         </div>
         <div class="cf-row">
           <div class="cf-field">
             <label class="cf-label">E-Mail</label>
-            <input class="cf-input" type="email" required placeholder="name@unternehmen.de" />
+            <input name="email" class="cf-input" type="email" required placeholder="name@unternehmen.de" />
           </div>
           <div class="cf-field">
             <label class="cf-label">Bereich</label>
-            <select class="cf-select cf-input">
+            <select name="area" class="cf-select cf-input">
               <option>Retail System</option>
               <option>Knowledge System</option>
               <option>Allgemeine Anfrage</option>
@@ -683,7 +683,7 @@
         </div>
         <div class="cf-field full">
           <label class="cf-label">Nachricht</label>
-          <textarea class="cf-textarea" rows="5" placeholder="Beschreiben Sie kurz Ihr Vorhaben."></textarea>
+          <textarea name="message" class="cf-textarea" rows="5" placeholder="Beschreiben Sie kurz Ihr Vorhaben."></textarea>
         </div>
         <div class="cf-footer">
           <p class="cf-legal">Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Anfrage zu.</p>
@@ -1189,10 +1189,38 @@ function renderAdvantages() {
 }
 
 // ── Contact form ─────────────────────────────────────────
-function cfSubmit(e) {
+async function cfSubmit(e) {
   e.preventDefault();
-  document.getElementById('cf-form').style.display = 'none';
-  document.getElementById('cf-success').classList.add('show');
+  const form = document.getElementById('cf-form');
+  const btn  = form.querySelector('.cf-submit');
+  const data = new FormData(form);
+
+  btn.disabled = true;
+  btn.textContent = 'Wird gesendet…';
+
+  try {
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name:    data.get('name')    || '',
+        company: data.get('company') || '',
+        email:   data.get('email')   || '',
+        area:    data.get('area')    || '',
+        message: data.get('message') || '',
+      }),
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error || 'Fehler');
+    form.style.display = 'none';
+    document.getElementById('cf-success').classList.add('show');
+  } catch (err) {
+    btn.disabled = false;
+    btn.innerHTML = 'Anfrage senden <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg>';
+    const legal = form.querySelector('.cf-legal');
+    legal.style.color = 'rgba(239,68,68,.8)';
+    legal.textContent = 'Versand fehlgeschlagen. Bitte erneut versuchen.';
+  }
 }
 
 // ── Init ────────────────────────────────────────────────
